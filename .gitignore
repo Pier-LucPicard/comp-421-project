@@ -1,3 +1,4 @@
 *.vscode
 *.cmd
 *.log
+*/node_modules

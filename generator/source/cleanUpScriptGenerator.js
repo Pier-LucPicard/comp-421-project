@@ -1,11 +1,13 @@
 "use strict";
 
+const _ = require('lodash');
 const Promise = require('bluebird');
 
 const sqlCmd = "DROP TABLE";
 
 module.exports = (fileStream, tableNames) => {
     console.log('Clean up script generation');
+    tableNames = _.reverse(tableNames)
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')

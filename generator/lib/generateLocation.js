@@ -1,7 +1,7 @@
 'use strict';
 const _ = require('lodash');
 const countriesToCities = require('../data/countriesToCities');
-
+const Promise = require('bluebird');
 
 let generateCountryCityPair = () => {
     let countries = _.keys(countriesToCities);
@@ -13,12 +13,12 @@ let generateCountryCityPair = () => {
 
 module.exports = (cache) => {
 
-    let generated = generateCountryCityPair();
+    let helper = (cache) => {
+        let generated = generateCountryCityPair();
+        return cache.location[generated.city + '-' + generated.country] ?  helper(cache) : generated
 
-    while (cache.location[generated.country + '-' + generated.city]) {
-        generated = generateCountryCityPair();
     }
-
-    return generated
+    
+    return helper(cache);
 
 }

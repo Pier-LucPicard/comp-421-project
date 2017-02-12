@@ -1,11 +1,11 @@
 'use strict';
 
-const ID = 'VARCHAR(10)';
+const ID = 'VARCHAR(20)';
 const EMAIL = 'VARCHAR(254)';
 const TEXT = 'VARCHAR(500)';
 const NAME = 'VARCHAR(50)';
 
-module.exports  = {
+module.exports = {
     location: {
         fields: {
             city: `${NAME} NOT NULL`,
@@ -150,27 +150,32 @@ module.exports  = {
             }
         }
     },
-       workperiod: { 
-           fields: {
-        email: `${EMAIL} NOT NULL`,
-        org_id: `${ID} NOT NULL`,
-        from_date: `DATE NOT NULL`,
-        to_date: `DATE NOT NULL`,
-        job_title: `${NAME}`
-    }, 
-    keys: { primary: ['email','org_id','from_date', 'to_date'], foreign: {
-        email: 'users(email)', org_id: 'organization(org_id)'
-    } } },
-    studyperiod: { 
+    workperiod: {
         fields: {
-        email: `${EMAIL} NOT NULL`,
-        org_id: `${ID} NOT NULL`,
-        from_date: `DATE NOT NULL`,
-        to_date: `DATE NOT NULL`,
-        edu_level: `${NAME}`
+            email: `${EMAIL} NOT NULL`,
+            org_id: `${ID} NOT NULL`,
+            from_date: `DATE NOT NULL`,
+            to_date: `DATE NOT NULL`,
+            job_title: `${NAME}`
+        },
+        keys: {
+            primary: ['email', 'org_id', 'from_date', 'to_date'], foreign: {
+                email: 'users(email)', org_id: 'organization(org_id)'
+            }
+        }
     },
-     keys: { primary: ['email','org_id','from_date', 'to_date'], foreign: {
-        email: 'users(email)', org_id: 'organization(org_id)'
-    } }  
-}
+    studyperiod: {
+        fields: {
+            email: `${EMAIL} NOT NULL`,
+            org_id: `${ID} NOT NULL`,
+            from_date: `DATE NOT NULL`,
+            to_date: `DATE NOT NULL`,
+            edu_level: `${NAME}`
+        },
+        keys: {
+            primary: ['email', 'org_id', 'from_date', 'to_date'], foreign: {
+                email: 'users(email)', org_id: 'organization(org_id)'
+            }
+        }
+    }
 };

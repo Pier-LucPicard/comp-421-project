@@ -5,7 +5,7 @@ const generate = require('project-name-generator');
 const emailProvider = require('../data/emailProvider')
 
 let generateEmail = (name) => {
-    let provider = `@${emailProvider.provider[_.random(0,emailProvider.provider.length,false)]}.${emailProvider.extention[_.random(0,emailProvider.extention.length,false)]}`
+    let provider = `@${emailProvider.provider[_.random(0,emailProvider.provider.length-1,false)]}.${emailProvider.extention[_.random(0,emailProvider.extention.length-1,false)]}`
     
     let email = name ?`${name}${provider}` :`${generate().dashed}${provider}`  
     return email;

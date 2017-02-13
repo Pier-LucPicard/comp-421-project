@@ -49,7 +49,7 @@ module.exports = (fileStream, tableSchema) => {
 
                     })
                     .then(() => {
-                        fileStream.write(command + ');\n');
+                        fileStream.write(command + ');\n \\d '+tableName+';\n');
                         resolve();
                     })
             })

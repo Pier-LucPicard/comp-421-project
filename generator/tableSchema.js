@@ -3,6 +3,7 @@
 const ID = 'VARCHAR(20)';
 const EMAIL = 'VARCHAR(254)';
 const TEXT = 'VARCHAR(500)';
+const POST = 'VARCHAR(2000)';
 const NAME = 'VARCHAR(50)';
 
 module.exports = {
@@ -108,7 +109,7 @@ module.exports = {
             wall_id: `${ID} NOT NULL`,
             email: `${EMAIL} NOT NULL`,
             date: 'DATE',
-            text: `${TEXT}`,
+            text: `${POST}`,
             url: 'VARCHAR(254)'
         }, keys: { primary: ['pid'], foreign: { wall_id: 'wall(wall_id)', email: 'users(email)' } }
     },

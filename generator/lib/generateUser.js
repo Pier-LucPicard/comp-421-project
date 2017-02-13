@@ -3,6 +3,7 @@ const _ = require('lodash');
 const generateEmail = require('./generateEmail');
 const generateName = require('random-name');
 const generateDate = require('random-date');
+const chance = require('chance')();
 
 let gender = ['male', 'female', 'other']
 
@@ -18,12 +19,13 @@ module.exports = (cache) => {
 
     let email = generateEmail(cache,'users');
     let location = findLocation(cache);
+
     return  {
         email: email, 
-        first_name:generateName.first(), 
-        last_name: generateName.last() , 
+        first_name:_.replace(generateName.first(),'\'\"',' '), 
+        last_name: _.replace(generateName.last(),'\'\"',' ') , 
         birthday: new Date(generateDate('-80y')).toDateString(),
-        password: 'not generated',
+        password:  chance.word({length: 10}),
         gender: gender[_.random(0,gender.length-1, false)],
         city: location.city,
         country: location.country

@@ -1,7 +1,7 @@
 
 /* It is impossible for an email to contain more than 320 characters */
 CREATE TABLE Users(
-  email VARCHAR(320) PRIMARY KEY,
+  email VARCHAR(320) PRIMARY KEY CHECK (email ~ '.+@.+\..+'),
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   birthday DATE NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE Users(
 );
 CREATE TABLE Conversation(
   convo_id SERIAL PRIMARY KEY,
-  name VARCHAR(100)
+  name VARCHAR(100) NOT NULL
 );
 CREATE TABLE Message(
   msg_id SERIAL PRIMARY KEY,

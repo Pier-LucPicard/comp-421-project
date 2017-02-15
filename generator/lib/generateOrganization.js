@@ -2,9 +2,7 @@
 const _ = require('lodash');
 const generateEmail = require('./generateEmail');
 const generateName = require('project-name-generator');
-const generateDate = require('random-date');
 const generateId = require('./generateId')
-const generateText = require('lorem-ipsum');
 const chance = require('chance')();
 
 let gender = ['male', 'female', 'other']
@@ -24,8 +22,8 @@ module.exports = (cache) => {
     let location = findLocation(cache);
     return  {
         org_id: generateId(cache, 'organization'), 
-        name:name.spaced, 
-        description: generateText({}) , 
+        name:_.capitalize(name.spaced), 
+        description: chance.sentence() , 
         phone_number: chance.phone(),
         address: chance.address(),
         email: email,

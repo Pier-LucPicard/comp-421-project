@@ -1,8 +1,6 @@
 'use strict';
 const _ = require('lodash');
 const generateEmail = require('./generateEmail');
-const generateName = require('random-name');
-const generateDate = require('random-date');
 const generateId = require('./generateId')
 const chance = require('chance')();
 
@@ -30,7 +28,7 @@ module.exports = (cache) => {
         pid: generateId(cache, 'post'), 
         wall_id: findWall(cache), 
         email:  findEmail(cache), 
-        date: new Date(generateDate('-80y')).toDateString(),
+        date: chance.date().toDateString(),
         text:  chance.paragraph({sentences: _.random(0,2,false)}),
         url: _.random(0,10,false) > 7? chance.url() : '',
     }

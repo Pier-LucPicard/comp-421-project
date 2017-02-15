@@ -9,7 +9,7 @@ const sqlCmd = "INSERT INTO";
 
 const NUMBER_OF_RECCORD =50;
 
-
+const type = ['school','workplace'];
 
 
 module.exports = (fileStream, table, cache) => {
@@ -24,8 +24,12 @@ module.exports = (fileStream, table, cache) => {
         return Promise.map(insertion, (tableName) => {
             let organization = generateOrganization(cache);
             cache[table][organization.org_id]=organization;
+            let orgType=type[_.random(0,type.length-1)]
+            cache[orgType][organization.org_id] = organization.org_id
             fileStream.write(sqlCmd + " " + table + ` values('${organization.org_id}','${organization.name}','${organization.description}','${organization.phone_number}', '${organization.address}','${organization.email}','${organization.city}','${organization.country}') ;\n`);
-        }).then(() => {
+            fileStream.write(sqlCmd + " " + orgType + ` values('${organization.org_id}') ;\n`);
+
+     }).then(() => {
             console.log("Insert organization script generated")
             resolve();
         })

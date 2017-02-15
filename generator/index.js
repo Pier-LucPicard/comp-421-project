@@ -21,6 +21,8 @@ const insertPostReaction = require('./source/generatePostReactionScriptGenerator
 
 const insertWorkPeriod = require('./source/generateWorkPeriodGenerator')
 
+const insertStudyPeriod = require('./source/generateStudyPeriodGenerator')
+
 const tables = require('./tableSchema');
 
 
@@ -51,4 +53,5 @@ cleanUp(fileStream, _.keys(tables))
     .then(() => insertMessage(fileStream, 'message', cache))
     .then(() => insertCommentReaction(fileStream, 'commentreaction', cache))
     .then(() => insertPostReaction(fileStream, 'postreaction', cache))
-    .then(() => insertWorkPeriod(fileStream, 'workperiod', cache));
+    .then(() => insertWorkPeriod(fileStream, 'workperiod', cache))
+    .then(() => insertStudyPeriod(fileStream, 'studyperiod', cache));

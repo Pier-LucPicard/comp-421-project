@@ -17,7 +17,6 @@ let findPartOf = (cache) => {
 module.exports = (cache) => {
     let partof = findPartOf(cache);
     return  {
-        msg_id: generateId(cache, 'message'), 
         email: partof.email,
         convo_id: partof.convo_id,
         time: chance.date().toDateString(),

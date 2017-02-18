@@ -17,7 +17,6 @@ module.exports = (cache) => {
     let name = generateName()
 
     return  {
-        convo_id: generateId(cache, 'conversation'), 
         name:name.spaced
     }
 

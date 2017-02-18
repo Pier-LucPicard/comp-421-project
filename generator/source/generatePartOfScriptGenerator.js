@@ -7,7 +7,7 @@ const generatePartOf = require('../lib/generatePartOf');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =50;
+const NUMBER_OF_RECCORD =150;
 
 module.exports = (fileStream, table, cache) => {
 

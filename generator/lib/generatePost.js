@@ -25,7 +25,6 @@ module.exports = (cache) => {
 
 
     return  {
-        pid: generateId(cache, 'post'), 
         wall_id: findWall(cache), 
         email:  findEmail(cache), 
         date: chance.date().toDateString(),

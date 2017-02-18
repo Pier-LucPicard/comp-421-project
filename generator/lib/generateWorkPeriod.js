@@ -22,11 +22,13 @@ let findWorkplaceId = (cache) => {
 }
 
 let generateWorkplacePeriod = (cache) => {
+    let from = chance.date();
+    let to = chance.date({year: from.getFullYear() + _.random(1,30)})
     return {
         email: findEmail(cache),
         org_id: findWorkplaceId(cache),
-        from: chance.date().toDateString(),
-        to: chance.date().toDateString(),
+        from: from.toDateString(),
+        to: to.toDateString(),
         job_title: generateJobTitle()
     }
 }

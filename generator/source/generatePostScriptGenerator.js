@@ -17,12 +17,14 @@ module.exports = (fileStream, table, cache) => {
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')
-
+        let id = 1
         return Promise.map(insertion, (tableName) => {
             let post = generatePost(cache);
-            cache.post[post.pid]=post;
-            fileStream.write(sqlCmd + " " + table + " values('"+post.pid+"', '"+post.wall_id+"', '"+post.email+"','"+post.date+"','"+post.text+"','"+post.url+"') ;\n");
-        }).then(() => {
+            post.pid = id
+            cache.post[`${id}`]=post;
+            fileStream.write(sqlCmd + " " + table + " values('"+id+"', '"+post.wall_id+"', '"+post.email+"','"+post.date+"','"+post.text+"','"+post.url+"') ;\n");
+            id++
+    }).then(() => {
             console.log("Insert post of script generated")
             resolve();
         })

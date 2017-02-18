@@ -25,7 +25,6 @@ module.exports = (cache) => {
 
 
     return  {
-        cid: generateId(cache, 'comment'), 
         pid: findPost(cache), 
         email:  findEmail(cache), 
         text:  chance.sentence(),

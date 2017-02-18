@@ -7,7 +7,7 @@ const generateComment = require('../lib/generateComment');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =300;
+const NUMBER_OF_RECCORD =450;
 
 module.exports = (fileStream, table, cache) => {
 
@@ -17,12 +17,14 @@ module.exports = (fileStream, table, cache) => {
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')
-
+        let id = 1
         return Promise.map(insertion, (tableName) => {
             let comment = generateComment(cache);
-            cache.comment[comment.cid]=comment;
-            fileStream.write(sqlCmd + " " + table + " values('"+comment.cid+"', '"+comment.pid+"', '"+comment.email+"','"+comment.text+"','"+comment.time+"') ;\n");
-        }).then(() => {
+            comment.cid = id
+            cache.comment[`${id}`]=comment;
+            fileStream.write(sqlCmd + " " + table + " values('"+id+"', '"+comment.pid+"', '"+comment.email+"','"+comment.text+"','"+comment.time+"') ;\n");
+            id ++
+    }).then(() => {
             console.log("Insert comment of script generated")
             resolve();
         })

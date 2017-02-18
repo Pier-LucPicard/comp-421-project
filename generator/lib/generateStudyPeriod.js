@@ -23,12 +23,14 @@ let findStudyplaceId = (cache) => {
 }
 
 let generateStudyPeriod = (cache) => {
+    let from = chance.date();
+    let to = chance.date({ year: from.getFullYear() + _.random(1, 10) })
     return {
         email: findEmail(cache),
         org_id: findStudyplaceId(cache),
-        from: chance.date().toDateString(),
-        to: chance.date().toDateString(),
-        edu_level: data.edu_level[_.random(0,data.edu_level.length-1,false)]
+        from: from.toDateString(),
+        to: to.toDateString(),
+        edu_level: data.edu_level[_.random(0, data.edu_level.length - 1, false)]
     }
 }
 
@@ -37,7 +39,7 @@ module.exports = (cache) => {
 
     let helper = (cache) => {
         let g = generateStudyPeriod(cache);
-        return cache.studyperiod[g.email + '-' + g.org_id+'-'+g.from+'-'+g.to] ? helper(cache) : g
+        return cache.studyperiod[g.email + '-' + g.org_id + '-' + g.from + '-' + g.to] ? helper(cache) : g
 
     }
 

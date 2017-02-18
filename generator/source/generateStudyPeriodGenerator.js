@@ -7,7 +7,7 @@ const generateStudyPeriod = require('../lib/generateStudyPeriod');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =300;
+const NUMBER_OF_RECCORD =150;
 
 module.exports = (fileStream, table, cache) => {
 

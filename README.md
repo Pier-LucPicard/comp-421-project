@@ -1,6 +1,2 @@
-# comp-421-project
-This is the database class project
 
-To get this project Install git then in the desired location enter
-
-`` git clone git@github.com:Pier-LucPicard/comp-421-project.git``
+C:\Users\jello\Documents\Mcgill\Comp421\comp-421-project>psql -U postgres -p 8080 -h localhost -f datagen.pgsql 

@@ -7,7 +7,7 @@ const generateOrganization = require('../lib/generateOrganization');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =50;
+const NUMBER_OF_RECCORD =100;
 
 const type = ['school','workplace'];
 
@@ -20,15 +20,16 @@ module.exports = (fileStream, table, cache) => {
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')
-
+        let id = 1;
         return Promise.map(insertion, (tableName) => {
             let organization = generateOrganization(cache);
-            cache[table][organization.org_id]=organization;
+            organization.org_id = id
+            cache[table][`${id}`]=organization;
             let orgType=type[_.random(0,type.length-1)]
-            cache[orgType][organization.org_id] = organization.org_id
-            fileStream.write(sqlCmd + " " + table + ` values('${organization.org_id}','${organization.name}','${organization.description}','${organization.phone_number}', '${organization.address}','${organization.email}','${organization.city}','${organization.country}') ;\n`);
-            fileStream.write(sqlCmd + " " + orgType + ` values('${organization.org_id}') ;\n`);
-
+            cache[orgType][`${id}`] = id
+            fileStream.write(sqlCmd + " " + table + ` values('${id}','${organization.name}','${organization.description}','${organization.phone_number}', '${organization.address}','${organization.email}','${organization.city}','${organization.country}') ;\n`);
+            fileStream.write(sqlCmd + " " + orgType + ` values('${id}') ;\n`);
+            id++
      }).then(() => {
             console.log("Insert organization script generated")
             resolve();

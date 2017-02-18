@@ -24,7 +24,7 @@ module.exports = (cache) => {
         last_name: chance.last(), 
         birthday: chance.birthday().toDateString(),
         password:  chance.word({length: 10}),
-        gender: gender,
+        gender: gender.toLowerCase()[0],
         city: location.city,
         country: location.country
     }

@@ -21,7 +21,6 @@ module.exports = (cache) => {
     let email = generateEmail(cache,'users',name.dashed);
     let location = findLocation(cache);
     return  {
-        org_id: generateId(cache, 'organization'), 
         name:_.capitalize(name.spaced), 
         description: chance.sentence() , 
         phone_number: chance.phone(),

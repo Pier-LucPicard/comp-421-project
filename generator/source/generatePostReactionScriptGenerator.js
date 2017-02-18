@@ -7,7 +7,7 @@ const generatePostReaction = require('../lib/generatePostReaction');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =450;
+const NUMBER_OF_RECCORD =400;
 
 module.exports = (fileStream, table, cache) => {
 

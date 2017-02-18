@@ -17,12 +17,14 @@ module.exports = (fileStream, table, cache) => {
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')
-
+        let id = 1;
         return Promise.map(insertion, (tableName) => {
             let message = generateMessage(cache);
-            cache.message[message.msg_id]=message;
-            fileStream.write(sqlCmd + " " + table + " values('"+message.msg_id+"', '"+message.email+"', '"+message.convo_id+"','"+message.time+"','"+message.content+"') ;\n");
-        }).then(() => {
+            message.msg_id = id
+            cache.message[`${id}`]=message;
+            fileStream.write(sqlCmd + " " + table + " values('"+id+"' ,'"+message.email+"', '"+message.convo_id+"','"+message.time+"','"+message.content+"') ;\n");
+            id++
+    }).then(() => {
             console.log("Insert message of script generated")
             resolve();
         })

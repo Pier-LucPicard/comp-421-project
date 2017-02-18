@@ -17,9 +17,8 @@ module.exports = (cache, email) => {
 
 
     return  {
-        wall_id: generateId(cache ,'wall'), 
         descr: chance.sentence(), 
-        perrmission: permission[_.random(0,permission.length-1, false)], 
+        perrmission: _.random(0,permission.length-1, false), 
         email: email? email : findEmail(cache)
     }
 

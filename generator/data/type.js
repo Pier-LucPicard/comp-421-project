@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-    type : ['anger','like','excitement', 'happiness','sadness']
+    type : ['angry', 'happy', 'sad', 'like', 'excited']
 }

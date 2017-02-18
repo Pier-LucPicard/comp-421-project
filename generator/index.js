@@ -39,19 +39,18 @@ const init_cache = () => {
 let cache = init_cache();
 let fileStream = fs.createWriteStream('../datagen.pgsql');
 
-cleanUp(fileStream, _.keys(tables))
-    .then(() => createTable(fileStream, tables))
-    .then(() => insertLocation(fileStream, 'location', cache))
+
+insertLocation(fileStream, 'location', cache)
     .then(() => insertUser(fileStream, 'users', cache))
     .then(() => insertOrganization(fileStream, 'organization', cache))
-    .then(() => insertConversation(fileStream, 'conversation', cache))
+     .then(() => insertConversation(fileStream, 'conversation', cache))
     .then(() => insertWall(fileStream, 'wall', cache))
-    .then(() => insertPartOf(fileStream, 'partof', cache))
-    .then(() => insertPost(fileStream, 'post', cache))
-    .then(() => insertComment(fileStream, 'comment', cache))
-    .then(() => insertFollow(fileStream, 'follow', cache))
-    .then(() => insertMessage(fileStream, 'message', cache))
-    .then(() => insertCommentReaction(fileStream, 'commentreaction', cache))
-    .then(() => insertPostReaction(fileStream, 'postreaction', cache))
-    .then(() => insertWorkPeriod(fileStream, 'workperiod', cache))
-    .then(() => insertStudyPeriod(fileStream, 'studyperiod', cache));
+     .then(() => insertPartOf(fileStream, 'partof', cache))
+     .then(() => insertPost(fileStream, 'post', cache))
+     .then(() => insertComment(fileStream, 'comment', cache))
+     .then(() => insertFollow(fileStream, 'follows', cache))
+     .then(() => insertMessage(fileStream, 'message', cache))
+     .then(() => insertCommentReaction(fileStream, 'commentreaction', cache))
+     .then(() => insertPostReaction(fileStream, 'postreaction', cache))
+     .then(() => insertWorkPeriod(fileStream, 'workperiod', cache))
+     .then(() => insertStudyPeriod(fileStream, 'studyperiod', cache));

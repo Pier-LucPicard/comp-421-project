@@ -7,7 +7,7 @@ const generateWorkPeriod = require('../lib/generateWorkPeriod');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =300;
+const NUMBER_OF_RECCORD =100;
 
 module.exports = (fileStream, table, cache) => {
 

@@ -20,19 +20,23 @@ module.exports = (fileStream, table, cache) => {
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')
+        let  id = 1
 
         return Promise.map(insertion, () => {
             let wall = generateWall(cache);
-            cache[table][wall.wall_id]=wall;
-            fileStream.write(sqlCmd + " " + table + ` values('${wall.wall_id}','${wall.descr}','${wall.perrmission}','${wall.email}') ;\n`);
-        })
+            wall.wall_id = id;
+            cache[table][`${id}`]=wall;
+            fileStream.write(sqlCmd + " " + table + ` values('${id}', '${wall.descr}','${wall.perrmission}','${wall.email}') ;\n`);
+            id++
+    })
         .then(() => {
             //Generate 1 wall per user
             return Promise.map(_.keys(cache.users), (email) => {
                  let wall = generateWall(cache,email);
-                cache[table][wall.wall_id]=wall;
-                fileStream.write(sqlCmd + " " + table + ` values('${wall.wall_id}','${wall.descr}','${wall.perrmission}','${wall.email}') ;\n`);
-       
+                  wall.wall_id = id;
+                cache[table][`${id}`]=wall;
+                fileStream.write(sqlCmd + " " + table + ` values('${id}', '${wall.descr}','${wall.perrmission}','${wall.email}') ;\n`);
+                id++
             })
         })
         .then(() => {

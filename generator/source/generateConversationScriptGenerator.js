@@ -20,12 +20,14 @@ module.exports = (fileStream, table, cache) => {
 
     return new Promise((resolve) => {
         fileStream.write('/* Script generated '+new Date()+'*/\n\n')
-
+        let id =1
         return Promise.map(insertion, (tableName) => {
             let conversation = generateConversation(cache);
-            cache[table][conversation.convo_id]=conversation;
-            fileStream.write(sqlCmd + " " + table + ` values('${conversation.convo_id}','${conversation.name}') ;\n`);
-        }).then(() => {
+            conversation.convo_id = id
+            cache[table][`${id}`]=conversation;
+            fileStream.write(sqlCmd + " " + table + ` values('${id}','${conversation.name}') ;\n`);
+            id++
+    }).then(() => {
             console.log("Insert conversation script generated")
             resolve();
         })

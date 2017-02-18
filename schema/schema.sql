@@ -14,7 +14,8 @@ CREATE TABLE Conversation(
 );
 CREATE TABLE Message(
   msg_id SERIAL PRIMARY KEY,
-  email VARCHAR(320) REFERENCES Users(email) NOT NULL,
+  email VARCHAR(320) REFERENCES Users(email),
+  convo_id SERIAL REFERENCES Conversation(convo_id),
   time TIMESTAMP DEFAULT current_timestamp NOT NULL,
   content VARCHAR(2000) NOT NULL
 );

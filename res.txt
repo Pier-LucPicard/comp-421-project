@@ -15,7 +15,6 @@ DROP TABLE
 DROP TABLE
 DROP TABLE
 DROP TABLE
-DROP TABLE
 CREATE TABLE
            Table "public.location"
  Column  |         Type          | Modifiers 

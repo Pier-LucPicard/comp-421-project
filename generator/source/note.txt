@@ -1,0 +1,17 @@
+Users: 100
+Location: 100
+Organisation: 100
+School: random
+Workplace: random
+Comment Reaction: 400
+Post Reaction: 400
+Comment:450
+Conversation:50
+Follow: 200
+Message: 450
+PartOf:150
+Post: 150
+wall:50
+WorkPeriod:70
+StudyPeriod: 150
+

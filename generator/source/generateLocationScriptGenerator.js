@@ -7,7 +7,7 @@ const generateLocation = require('../lib/generateLocation');
 
 const sqlCmd = "INSERT INTO";
 
-const NUMBER_OF_RECCORD =50;
+const NUMBER_OF_RECCORD =100;
 
 module.exports = (fileStream, table, cache) => {
 

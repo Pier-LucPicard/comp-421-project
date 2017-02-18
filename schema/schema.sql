@@ -28,12 +28,10 @@ CREATE TABLE PartOf(
 );
 CREATE TABLE Message(
   msg_id SERIAL PRIMARY KEY,
-  email VARCHAR(320) NOT NULL,
-  convo_id SERIAL NOT NULL,
+  email VARCHAR(320) REFERENCES Users(email),
+  convo_id SERIAL REFERENCES Conversation(convo_id),
   time TIMESTAMP DEFAULT current_timestamp NOT NULL,
-  content VARCHAR(2000) NOT NULL,
-  FOREIGN KEY (email, convo_id) REFERENCES PartOf(email, convo_id)
-
+  content VARCHAR(2000) NOT NULL
 );
 /* Wall description is not required, permissions are stored as numbered values */
 CREATE TABLE Wall(

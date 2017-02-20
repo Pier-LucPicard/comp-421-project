@@ -1,16 +1,30 @@
 
+
 /* It is impossible for an email to contain more than 320 characters */
+CREATE TABLE Location(
+  city VARCHAR(50) NOT NULL,
+  country VARCHAR(50) NOT NULL,
+  PRIMARY KEY (city, country)
+);
 CREATE TABLE Users(
   email VARCHAR(320) PRIMARY KEY CHECK (email ~ '^[a-zA-Z0-9\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$'),
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   birthday DATE NOT NULL,
   password VARCHAR(20) NOT NULL,
-  gender VARCHAR(1) NOT NULL CHECK (gender='m' OR gender='f')
+  gender VARCHAR(1) NOT NULL CHECK (gender='m' OR gender='f'),
+  city VARCHAR(50),
+  country VARCHAR(50),
+  FOREIGN KEY (city, country) REFERENCES Location(city, country)
 );
 CREATE TABLE Conversation(
   convo_id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL
+);
+CREATE TABLE PartOf(
+  email VARCHAR(320) REFERENCES Users(email),
+  convo_id SERIAL REFERENCES Conversation(convo_id),
+  PRIMARY KEY (email, convo_id)
 );
 CREATE TABLE Message(
   msg_id SERIAL PRIMARY KEY,
@@ -41,11 +55,7 @@ CREATE TABLE Comment(
   text TEXT NOT NULL,
   time TIMESTAMP DEFAULT current_timestamp NOT NULL
 );
-CREATE TABLE Location(
-  city VARCHAR(50) NOT NULL,
-  country VARCHAR(50) NOT NULL,
-  PRIMARY KEY (city, country)
-);
+
 /*
 Description is not required. Phone numbers are stored as characters, we chose a length
 of 20 because it seemed reasonable. There are no phone numbers with more than 20 characters.
@@ -56,6 +66,7 @@ CREATE TABLE Organization(
   description VARCHAR(500),
   phone_number VARCHAR(20) NOT NULL,
   address VARCHAR(100) NOT NULL,
+  email VARCHAR(320) CHECK (email ~ '^[a-zA-Z0-9\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$'),
   city VARCHAR(50),
   country VARCHAR(50),
   FOREIGN KEY (city, country) REFERENCES Location(city, country)
@@ -83,24 +94,21 @@ CREATE TABLE Follows(
   followed_by VARCHAR(320) REFERENCES Users(email),
   since TIMESTAMP DEFAULT current_timestamp NOT NULL
 );
-CREATE TABLE PartOf(
-  email VARCHAR(320) REFERENCES Users(email),
-  convo_id SERIAL REFERENCES Conversation(convo_id),
-  PRIMARY KEY (email, convo_id)
-);
 CREATE TABLE WorkPeriod(
-  email VARCHAR(320) PRIMARY KEY REFERENCES Users(email),
+  email VARCHAR(320) REFERENCES Users(email),
   org_id SERIAL REFERENCES Workplace(org_id),
   from_date DATE NOT NULL,
   to_date DATE NOT NULL,
   job_title VARCHAR(100) NOT NULL,
-  CHECK (from_date <= to_date)
+  CHECK (from_date <= to_date),
+PRIMARY KEY (email,org_id,from_date,to_date)
 );
 CREATE TABLE StudyPeriod(
-  email VARCHAR(320) PRIMARY KEY REFERENCES Users(email),
+  email VARCHAR(320) REFERENCES Users(email),
   org_id SERIAL REFERENCES School(org_id),
   from_date DATE NOT NULL,
   to_date DATE NOT NULL,
   edu_level VARCHAR(100) NOT NULL,
-  CHECK (from_date <= to_date)
+  CHECK (from_date <= to_date),
+  PRIMARY KEY (email,org_id,from_date,to_date)
 );

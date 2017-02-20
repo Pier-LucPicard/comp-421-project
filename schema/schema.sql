@@ -12,7 +12,7 @@ CREATE TABLE Users(
   last_name VARCHAR(50) NOT NULL,
   birthday DATE NOT NULL,
   password VARCHAR(20) NOT NULL,
-  gender VARCHAR(1) NOT NULL CHECK (gender='m' OR gender='f'),
+  gender VARCHAR(1) NOT NULL CHECK (gender='m' OR gender='f' OR gender='o'),
   city VARCHAR(50),
   country VARCHAR(50),
   FOREIGN KEY (city, country) REFERENCES Location(city, country)

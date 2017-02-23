@@ -3076,3 +3076,10 @@ INSERT INTO studyperiod VALUES('cute-cream@sympatico.uk', '37', 'Sun Nov 25 2040
 INSERT INTO studyperiod VALUES('whimsical-drawer@sympatico.net', '37', 'Tue Sep 20 2095','Sun Mar 01 2099','Secondary school diploma') ;
 INSERT INTO studyperiod VALUES('measly-trousers@icloud.ca', '58', 'Sun Aug 31 2036','Thu Jan 05 2040','Bachelor degree') ;
 INSERT INTO studyperiod VALUES('skillful-mother@videotron.com', '99', 'Sun Apr 08 2063','Mon Mar 29 2066','Master degree') ;
+
+SELECT setval('comment_cid_seq', (SELECT MAX(cid) FROM Comment));
+SELECT setval('conversation_convo_id_seq', (SELECT MAX(convo_id) FROM Conversation));
+SELECT setval('message_msg_id_seq', (SELECT MAX(msg_id) FROM Message));
+SELECT setval('organization_org_id_seq', (SELECT MAX(org_id) FROM Organization));
+SELECT setval('post_pid_seq', (SELECT MAX(pid) FROM Post));
+SELECT setval('wall_wall_id_seq', (SELECT MAX(wall_id) FROM Wall));

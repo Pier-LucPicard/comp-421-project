@@ -24,9 +24,7 @@ DELETE from Wall where wall_id not in(SELECT wall_id from Post);
 4) create a wall I LOVE DATABASE for all users who has a wall
 */
 
-INSERT INTO Wall (wall_id, descr,email)
-SELECT (SELECT MAX(wall_id)+1 FROM Wall), 'I love database', email
-FROM   Users
-WHERE  Users.email in (SELECT Users.email from Users intersect SELECT email from Wall);
+INSERT INTO Wall (descr,email) 
+SELECT email ,'I love database' as col2 from (SELECT Users.email from Users WHERE  Users.email in (SELECT Users.email from Users intersect SELECT email from Wall)) as derivedtable;
 
 

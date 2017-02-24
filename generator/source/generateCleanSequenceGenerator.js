@@ -16,7 +16,7 @@ module.exports = (fileStream, table, cache) => {
     return new Promise((resolve) => {
     fs.readFile('data/sequence.txt', 'utf8', function (err,data) {
         console.log("Clean sequence script generated");
-        fileStream.write("\n"+data+"/n");
+        fileStream.write("\n"+data+"\n");
         resolve();
     });
 

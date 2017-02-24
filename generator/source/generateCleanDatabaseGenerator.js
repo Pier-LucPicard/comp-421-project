@@ -16,7 +16,7 @@ module.exports = (fileStream, table, cache) => {
             fileStream.write('/* Script generated '+new Date()+'*/\n\n');
     fs.readFile('data/drop.txt', 'utf8', function (err,data) {
         console.log("Drop and create table script generated");
-        fileStream.write(data+"/n");
+        fileStream.write(data+"\n");
         resolve();
     });
 

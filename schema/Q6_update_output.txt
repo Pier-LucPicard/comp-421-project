@@ -3,16 +3,82 @@ Relations used in the update statements are the same as in Q5
 
 Output of first statement
 
-UPDATE 0
+Before (males living in Jamestown):
+            email             | first_name | last_name |  birthday  |  password  | gender |   city    |   country    
+------------------------------+------------+-----------+------------+------------+--------+-----------+--------------
+ futuristic-frog@sympatico.co | Wayne      | Brock     | 1960-10-07 | pawfeppeno | m      | Jamestown | Saint Helena
+ beefy-heat@hotmail.com       | Ricardo    | Patrick   | 1964-05-10 | afosudilev | m      | Jamestown | Saint Helena
+(2 rows)
+
+UPDATE 2
+After (females living in Jamestown):
+             email             | first_name | last_name |  birthday  |  password  | gender |   city    |   country    
+-------------------------------+------------+-----------+------------+------------+--------+-----------+--------------
+ nauseating-song@sympatico.com | Lina       | Watson    | 1994-09-19 | mivlizcivo | f      | Jamestown | Saint Helena
+ spotted-deer@yahoo.io         | Jean       | Warner    | 1981-11-15 | befbaimmaj | f      | Jamestown | Saint Helena
+ futuristic-frog@sympatico.co  | Wayne      | Brock     | 1960-10-07 | pawfeppeno | f      | Jamestown | Saint Helena
+ beefy-heat@hotmail.com        | Ricardo    | Patrick   | 1964-05-10 | afosudilev | f      | Jamestown | Saint Helena
+(4 rows)
+
 
 Output of second statement
 
-UPDATE 38
+Before:
+            email            | first_name | last_name  |  birthday  |  password  | gender |    city     |  country  
+-----------------------------+------------+------------+------------+------------+--------+-------------+-----------
+ scarce-rifle@icloud.ca      | Trevor     | Jensen     | 1961-09-10 | nuberwoiza | m      | Namibe      | Angola
+ icky-crowd@mac.ca           | Francis    | McLaughlin | 1999-01-08 | ruvoduwuho | f      | Monte Carlo | Monaco
+ mammoth-stocking@icloud.net | Eula       | Flowers    | 1979-04-27 | jatomzomhu | f      | Calidonia   | Panama
+ mindless-wave@icloud.fr     | Josephine  | Boyd       | 1965-06-19 | vemobugfag | f      | Chek Chue   | Hong Kong
+ bent-argument@me.fr         | Lillie     | Gibson     | 1967-03-03 | duposlosvo | f      | Cuenca      | Ecuador
+(5 rows)
+
+UPDATE 21
+After:
+            email            | first_name | last_name  |  birthday  |  password  | gender |    city     |  country  
+-----------------------------+------------+------------+------------+------------+--------+-------------+-----------
+ scarce-rifle@icloud.ca      | Trevor     | Jensen     | 1972-02-02 | nuberwoiza | m      | Namibe      | Angola
+ icky-crowd@mac.ca           | Francis    | McLaughlin | 1972-02-02 | ruvoduwuho | f      | Monte Carlo | Monaco
+ mammoth-stocking@icloud.net | Eula       | Flowers    | 1972-02-02 | jatomzomhu | f      | Calidonia   | Panama
+ mindless-wave@icloud.fr     | Josephine  | Boyd       | 1972-02-02 | vemobugfag | f      | Chek Chue   | Hong Kong
+ bent-argument@me.fr         | Lillie     | Gibson     | 1972-02-02 | duposlosvo | f      | Cuenca      | Ecuador
+(5 rows)
+
 
 Output of third statement
 
-DELETE 74
+Before:
+ wall_id |                                               descr                                                | permission |           email           
+---------+----------------------------------------------------------------------------------------------------+------------+---------------------------
+       2 | Ojusagjir intikja lap amcegho vas cagpol asocaf ap leras fiche his rolmi mazoma jo jovezguw.       |          8 | alluring-icicle@gmail.co
+       5 | Ewpiwaz zagowa cipijet joif ive zozraj kieda haczeb jaewe fovjok totode mi su newaake ojo.         |          4 | classy-girls@sympatico.us
+       6 | Ad borocub tizzanwur waisbo ico ku je is beb him dafhuku wul wevoz worevfu dera pebaro si ivewemu. |          7 | nosy-wave@yahoo.uk
+       8 | Taoltid favugi pooro ep hij tifigot kufputga zibta ilo vipignot rirkefu ti ba ud ohrag kak.        |          8 | gray-pig@videotron.fr
+      11 | Vaka talaga zu kalbugru non minifofe zeure bav vubu tizuf se agci owu we liwu ok.                  |          7 | daffy-angle@me.us
+(5 rows)
+
+DELETE 59
+After:
+ wall_id | descr | permission | email 
+---------+-------+------------+-------
+(0 rows)
+
 
 Output of fourth statement
 
+Before (walls with description I love database):
+ wall_id | descr | permission | email 
+---------+-------+------------+-------
+(0 rows)
+
 INSERT 0 74
+After:
+ wall_id |      descr      | permission |            email             
+---------+-----------------+------------+------------------------------
+     173 | I love database |          0 | icky-crowd@mac.ca
+     174 | I love database |          0 | untidy-notebook@videotron.uk
+     175 | I love database |          0 | elastic-loss@gmail.com
+     176 | I love database |          0 | hushed-seashore@yahoo.uk
+     177 | I love database |          0 | futuristic-frog@sympatico.co
+(5 rows)
+

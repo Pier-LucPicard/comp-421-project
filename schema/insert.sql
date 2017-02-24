@@ -1,3 +1,9 @@
+/*
+We did not insert city and location for these users, as they are optional (they can be null), and since they are
+external keys we would need to make sure they match the entries in the location table, but this question asked to
+insert in only one relation.
+ */
+
 INSERT INTO Users(email, first_name, last_name, birthday, password, gender)
 VALUES ('john@gmail.com', 'John', 'James', '1990-01-16', 'secretpass', 'm');
 INSERT INTO Users(email, first_name, last_name, birthday, password, gender)

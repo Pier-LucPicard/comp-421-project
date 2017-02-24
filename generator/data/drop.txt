@@ -1,3 +1,22 @@
+DROP VIEW IF EXISTS AgeCategoryStatistics;
+DROP VIEW IF EXISTS Reactions;
+DROP TABLE IF EXISTS studyperiod ;
+DROP TABLE IF EXISTS workperiod  ;
+DROP TABLE IF EXISTS message  ;
+DROP TABLE IF EXISTS commentreaction  ;
+DROP TABLE IF EXISTS comment  ;
+DROP TABLE IF EXISTS postreaction  ;
+DROP TABLE IF EXISTS post  ;
+DROP TABLE IF EXISTS wall  ;
+DROP TABLE IF EXISTS partof  ;
+DROP TABLE IF EXISTS follows  ;
+DROP TABLE IF EXISTS users  ;
+DROP TABLE IF EXISTS conversation  ;
+DROP TABLE IF EXISTS workplace  ;
+DROP TABLE IF EXISTS school  ;
+DROP TABLE IF EXISTS organization  ;
+DROP TABLE IF EXISTS location  ;
+
 /* It is impossible for an email to contain more than 320 characters */
 CREATE TABLE Location(
   city VARCHAR(50) NOT NULL,

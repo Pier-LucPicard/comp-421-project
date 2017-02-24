@@ -16,7 +16,6 @@ module.exports = (fileStream, table, cache) => {
     console.log('Insert location script generation');
 
     return new Promise((resolve) => {
-        fileStream.write('/* Script generated '+new Date()+'*/\n\n')
 
         return Promise.map(insertion, (tableName) => {
             let location = generateLocation(cache);

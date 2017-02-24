@@ -19,9 +19,12 @@ const insertMessage = require('./source/generateMessageScriptGenerator');
 const insertCommentReaction = require('./source/generateCommentReactionScriptGenerator');
 const insertPostReaction = require('./source/generatePostReactionScriptGenerator');
 
-const insertWorkPeriod = require('./source/generateWorkPeriodGenerator')
+const insertWorkPeriod = require('./source/generateWorkPeriodGenerator');
 
-const insertStudyPeriod = require('./source/generateStudyPeriodGenerator')
+const insertStudyPeriod = require('./source/generateStudyPeriodGenerator');
+
+const cleanCreateDatabase = require('./source/generateCleanDatabaseGenerator');
+const cleanSequence = require('./source/generateCleanSequenceGenerator');
 
 const tables = require('./tableSchema');
 
@@ -37,20 +40,21 @@ const init_cache = () => {
 }
 
 let cache = init_cache();
-let fileStream = fs.createWriteStream('../datagen.pgsql');
+let fileStream = fs.createWriteStream('../datagenerated.sql');
 
-
-insertLocation(fileStream, 'location', cache)
+cleanCreateDatabase(fileStream, '', cache)
+    .then(()=>insertLocation(fileStream, 'location', cache))
     .then(() => insertUser(fileStream, 'users', cache))
     .then(() => insertOrganization(fileStream, 'organization', cache))
-     .then(() => insertConversation(fileStream, 'conversation', cache))
+    .then(() => insertConversation(fileStream, 'conversation', cache))
     .then(() => insertWall(fileStream, 'wall', cache))
-     .then(() => insertPartOf(fileStream, 'partof', cache))
-     .then(() => insertPost(fileStream, 'post', cache))
-     .then(() => insertComment(fileStream, 'comment', cache))
-     .then(() => insertFollow(fileStream, 'follows', cache))
-     .then(() => insertMessage(fileStream, 'message', cache))
-     .then(() => insertCommentReaction(fileStream, 'commentreaction', cache))
-     .then(() => insertPostReaction(fileStream, 'postreaction', cache))
-     .then(() => insertWorkPeriod(fileStream, 'workperiod', cache))
-     .then(() => insertStudyPeriod(fileStream, 'studyperiod', cache));
+    .then(() => insertPartOf(fileStream, 'partof', cache))
+    .then(() => insertPost(fileStream, 'post', cache))
+    .then(() => insertComment(fileStream, 'comment', cache))
+    .then(() => insertFollow(fileStream, 'follows', cache))
+    .then(() => insertMessage(fileStream, 'message', cache))
+    .then(() => insertCommentReaction(fileStream, 'commentreaction', cache))
+    .then(() => insertPostReaction(fileStream, 'postreaction', cache))
+    .then(() => insertWorkPeriod(fileStream, 'workperiod', cache))
+    .then(() => insertStudyPeriod(fileStream, 'studyperiod', cache))
+    .then(() => cleanSequence(fileStream, '', cache));

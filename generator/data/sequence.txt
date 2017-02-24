@@ -1,0 +1,6 @@
+SELECT setval('comment_cid_seq', (SELECT MAX(cid) FROM Comment));
+SELECT setval('conversation_convo_id_seq', (SELECT MAX(convo_id) FROM Conversation));
+SELECT setval('message_msg_id_seq', (SELECT MAX(msg_id) FROM Message));
+SELECT setval('organization_org_id_seq', (SELECT MAX(org_id) FROM Organization));
+SELECT setval('post_pid_seq', (SELECT MAX(pid) FROM Post));
+SELECT setval('wall_wall_id_seq', (SELECT MAX(wall_id) FROM Wall));

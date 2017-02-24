@@ -1,0 +1,14 @@
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+        email         | first_name | last_name |  birthday  |   password    | gender | city | country 
+----------------------+------------+-----------+------------+---------------+--------+------+---------
+ john@gmail.com       | John       | James     | 1990-01-16 | secretpass    | m      |      | 
+ bob@hotmail.com      | Bob        | Loblaw    | 1985-04-04 | 5145145144    | m      |      | 
+ maryjane@hotmail.com | Mary       | Jane      | 1969-10-10 | programmer123 | f      |      | 
+ eva@mail.mcgill.ca   | Eva        | Underwood | 1980-05-08 | qwerty123     | f      |      | 
+ mememaster@gmail.com | Gabe       | Newell    | 1962-11-03 | gaben         | m      |      | 
+(5 rows)
+

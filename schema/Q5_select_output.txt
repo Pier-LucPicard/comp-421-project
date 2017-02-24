@@ -1,0 +1,218 @@
+Description of the statements used in the following queries:
+              Table "public.users"
+   Column   |          Type          | Modifiers 
+------------+------------------------+-----------
+ email      | character varying(320) | not null
+ first_name | character varying(50)  | not null
+ last_name  | character varying(50)  | not null
+ birthday   | date                   | not null
+ password   | character varying(20)  | not null
+ gender     | character varying(1)   | not null
+ city       | character varying(50)  | 
+ country    | character varying(50)  | 
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (email)
+Check constraints:
+    "users_email_check" CHECK (email::text ~ '^[a-zA-Z0-9\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$'::text)
+    "users_gender_check" CHECK (gender::text = 'm'::text OR gender::text = 'f'::text OR gender::text = 'o'::text)
+Foreign-key constraints:
+    "users_city_fkey" FOREIGN KEY (city, country) REFERENCES location(city, country)
+Referenced by:
+    TABLE "comment" CONSTRAINT "comment_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "commentreaction" CONSTRAINT "commentreaction_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "follows" CONSTRAINT "follows_followed_by_fkey" FOREIGN KEY (followed_by) REFERENCES users(email)
+    TABLE "follows" CONSTRAINT "follows_follower_fkey" FOREIGN KEY (follower) REFERENCES users(email)
+    TABLE "message" CONSTRAINT "message_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "partof" CONSTRAINT "partof_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "post" CONSTRAINT "post_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "postreaction" CONSTRAINT "postreaction_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "studyperiod" CONSTRAINT "studyperiod_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "wall" CONSTRAINT "wall_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "workperiod" CONSTRAINT "workperiod_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+
+                                     Table "public.partof"
+  Column  |          Type          |                         Modifiers                         
+----------+------------------------+-----------------------------------------------------------
+ email    | character varying(320) | not null
+ convo_id | integer                | not null default nextval('partof_convo_id_seq'::regclass)
+Indexes:
+    "partof_pkey" PRIMARY KEY, btree (email, convo_id)
+Foreign-key constraints:
+    "partof_convo_id_fkey" FOREIGN KEY (convo_id) REFERENCES conversation(convo_id)
+    "partof_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+
+                                     Table "public.wall"
+   Column   |          Type          |                       Modifiers                        
+------------+------------------------+--------------------------------------------------------
+ wall_id    | integer                | not null default nextval('wall_wall_id_seq'::regclass)
+ descr      | character varying(500) | 
+ permission | smallint               | not null default 0
+ email      | character varying(320) | 
+Indexes:
+    "wall_pkey" PRIMARY KEY, btree (wall_id)
+Foreign-key constraints:
+    "wall_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+Referenced by:
+    TABLE "post" CONSTRAINT "post_wall_id_fkey" FOREIGN KEY (wall_id) REFERENCES wall(wall_id)
+
+                       Table "public.follows"
+   Column    |            Type             |       Modifiers        
+-------------+-----------------------------+------------------------
+ follower    | character varying(320)      | 
+ followed_by | character varying(320)      | 
+ since       | timestamp without time zone | not null default now()
+Foreign-key constraints:
+    "follows_followed_by_fkey" FOREIGN KEY (followed_by) REFERENCES users(email)
+    "follows_follower_fkey" FOREIGN KEY (follower) REFERENCES users(email)
+
+                                      Table "public.post"
+ Column  |            Type             |                       Modifiers                        
+---------+-----------------------------+--------------------------------------------------------
+ pid     | integer                     | not null default nextval('post_pid_seq'::regclass)
+ wall_id | integer                     | not null default nextval('post_wall_id_seq'::regclass)
+ email   | character varying(320)      | 
+ date    | timestamp without time zone | not null default now()
+ text    | character varying(2000)     | not null
+ url     | character varying(2000)     | 
+Indexes:
+    "post_pkey" PRIMARY KEY, btree (pid)
+Foreign-key constraints:
+    "post_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    "post_wall_id_fkey" FOREIGN KEY (wall_id) REFERENCES wall(wall_id)
+Referenced by:
+    TABLE "comment" CONSTRAINT "comment_pid_fkey" FOREIGN KEY (pid) REFERENCES post(pid)
+    TABLE "postreaction" CONSTRAINT "postreaction_pid_fkey" FOREIGN KEY (pid) REFERENCES post(pid)
+
+
+
+Output of first statement
+
+              email               
+----------------------------------
+ fast-bikes@gmail.fr
+ noted-creature@mac.uk
+ trashy-board@videotron.fr
+ fanatical-visitor@videotron.net
+ moaning-plant@gmail.fr
+ burly-pipe@videotron.us
+ thoughtless-respect@sympatico.fr
+ giddy-cent@hotmail.ca
+ gray-pig@videotron.fr
+ obese-trousers@me.ca
+ perpetual-rabbits@videotron.com
+ holistic-club@mac.com
+ thick-yard@sympatico.us
+ cloistered-chin@mac.uk
+ maddening-basketball@yahoo.co
+ the-toothpaste@mac.io
+ abstracted-note@icloud.us
+ haloed-reason@yahoo.us
+ poised-giants@mac.co
+ showy-clam@videotron.uk
+ hulking-rainstorm@gmail.co
+ square-alarm@sympatico.ca
+ tense-door@me.co
+ honest-suggestion@sympatico.uk
+ harsh-porter@videotron.ca
+ aquatic-rainstorm@yahoo.fr
+ tacky-driving@icloud.us
+ beefy-heat@hotmail.com
+ melodic-fruit@hotmail.io
+ elastic-loss@gmail.com
+ rotten-front@videotron.io
+ futuristic-frog@sympatico.co
+ thriving-arm@yahoo.io
+ repulsive-pail@videotron.net
+ possessive-noise@mac.us
+ scarce-rifle@icloud.ca
+ five-vase@sympatico.com
+ scared-action@hotmail.ca
+ rampant-thunder@gmail.io
+ jazzed-queen@gmail.fr
+ utopian-beginner@sympatico.us
+ hurried-coal@icloud.io
+(42 rows)
+
+
+Output of second statement
+
+ email 
+-------
+(0 rows)
+
+
+Output of third statement
+
+           email           
+---------------------------
+ eminent-dock@yahoo.io
+ ideal-guitar@sympatico.co
+(2 rows)
+
+
+Output of fourth statement
+
+         city          | count 
+-----------------------+-------
+ Gigante               |     3
+ La Habana             |     1
+ Abidjan               |     1
+ Mymensingh            |     1
+ Godby                 |     2
+ Bobo-Dioulasso        |     4
+ Corcelles             |     1
+ Tang                  |     2
+ Kourou                |     1
+ Woodbrook             |     1
+ Engordany             |     1
+ Moengo                |     2
+ Shendi                |     1
+ American Samoa        |     1
+ Kumba                 |     1
+ Pemba                 |     1
+ Saint-Josse-ten-Noode |     1
+ Pyongyang             |     3
+ Virserum              |     1
+ Mbabane               |     1
+ Bissau                |     1
+ Presidente Franco     |     2
+ Santa Isabel          |     1
+ Hussein Dey           |     2
+ Charlestown           |     1
+ Dili                  |     1
+ Monte Carlo           |     2
+ Lilongwe              |     2
+ Longyearbyen          |     1
+ Saxon                 |     2
+ Over Back The Damp    |     2
+ Praia                 |     1
+ Ash Shuaybah          |     3
+ Cotonou               |     2
+ Jamestown             |     4
+ Ibague                |     1
+ Brovary               |     1
+ Cecerleg              |     1
+ Anse La Raye          |     3
+ May Pen               |     3
+ Salem                 |     1
+ Gibraltar             |     1
+ Union                 |     1
+ Bamako                |     1
+ Cuenca                |     2
+ Mansfield Woodhouse   |     2
+ Patchway              |     2
+ Vieux Fort            |     1
+ Al Mansurah           |     3
+ Tanaf                 |     2
+(50 rows)
+
+
+Output of fifth statement
+
+       followed_by       |         follower         
+-------------------------+--------------------------
+ elastic-loss@gmail.com  | holistic-club@mac.com
+ vulgar-silk@mac.co      | solid-back@sympatico.io
+ solid-back@sympatico.io | primo-coast@sympatico.uk
+(3 rows)
+

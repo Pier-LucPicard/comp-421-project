@@ -1,0 +1,3 @@
+Q7_view.sql contains the view creation and queries
+Q7_view_update.sql contains the attemtn to update views, and the explanation why it does not work.
+Q7_view_output.txt contains the output of running Q7_view.sql.

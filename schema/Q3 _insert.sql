@@ -14,3 +14,5 @@ INSERT INTO Users(email, first_name, last_name, birthday, password, gender)
 VALUES ('eva@mail.mcgill.ca', 'Eva', 'Underwood', '1980-05-08', 'qwerty123', 'f');
 INSERT INTO Users(email, first_name, last_name, birthday, password, gender)
 VALUES ('mememaster@gmail.com', 'Gabe', 'Newell', '1962-11-03', 'gaben', 'm');
+
+SELECT * FROM Users; /* Show the output */

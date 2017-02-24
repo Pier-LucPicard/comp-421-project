@@ -1,0 +1,239 @@
+                                    Table "public.comment"
+ Column |            Type             |                       Modifiers                       
+--------+-----------------------------+-------------------------------------------------------
+ cid    | integer                     | not null default nextval('comment_cid_seq'::regclass)
+ pid    | integer                     | not null default nextval('comment_pid_seq'::regclass)
+ email  | character varying(320)      | 
+ text   | text                        | not null
+ time   | timestamp without time zone | not null default now()
+Indexes:
+    "comment_pkey" PRIMARY KEY, btree (cid)
+Foreign-key constraints:
+    "comment_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    "comment_pid_fkey" FOREIGN KEY (pid) REFERENCES post(pid)
+Referenced by:
+    TABLE "commentreaction" CONSTRAINT "commentreaction_cid_fkey" FOREIGN KEY (cid) REFERENCES comment(cid)
+
+                                 Table "public.commentreaction"
+ Column |          Type          |                           Modifiers                           
+--------+------------------------+---------------------------------------------------------------
+ cid    | integer                | not null default nextval('commentreaction_cid_seq'::regclass)
+ email  | character varying(320) | not null
+ type   | character varying(7)   | 
+Indexes:
+    "commentreaction_pkey" PRIMARY KEY, btree (cid, email)
+Check constraints:
+    "commentreaction_type_check" CHECK (type::text = ANY (ARRAY['angry'::character varying, 'happy'::character varying, 'sad'::character varying, 'like'::character varying, 'excited'::character varying]::text[]))
+Foreign-key constraints:
+    "commentreaction_cid_fkey" FOREIGN KEY (cid) REFERENCES comment(cid)
+    "commentreaction_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+
+                                     Table "public.conversation"
+  Column  |          Type          |                            Modifiers                            
+----------+------------------------+-----------------------------------------------------------------
+ convo_id | integer                | not null default nextval('conversation_convo_id_seq'::regclass)
+ name     | character varying(100) | not null
+Indexes:
+    "conversation_pkey" PRIMARY KEY, btree (convo_id)
+Referenced by:
+    TABLE "message" CONSTRAINT "message_convo_id_fkey" FOREIGN KEY (convo_id) REFERENCES conversation(convo_id)
+    TABLE "partof" CONSTRAINT "partof_convo_id_fkey" FOREIGN KEY (convo_id) REFERENCES conversation(convo_id)
+
+                       Table "public.follows"
+   Column    |            Type             |       Modifiers        
+-------------+-----------------------------+------------------------
+ follower    | character varying(320)      | 
+ followed_by | character varying(320)      | 
+ since       | timestamp without time zone | not null default now()
+Foreign-key constraints:
+    "follows_followed_by_fkey" FOREIGN KEY (followed_by) REFERENCES users(email)
+    "follows_follower_fkey" FOREIGN KEY (follower) REFERENCES users(email)
+
+           Table "public.location"
+ Column  |         Type          | Modifiers 
+---------+-----------------------+-----------
+ city    | character varying(50) | not null
+ country | character varying(50) | not null
+Indexes:
+    "location_pkey" PRIMARY KEY, btree (city, country)
+Referenced by:
+    TABLE "organization" CONSTRAINT "organization_city_fkey" FOREIGN KEY (city, country) REFERENCES location(city, country)
+    TABLE "users" CONSTRAINT "users_city_fkey" FOREIGN KEY (city, country) REFERENCES location(city, country)
+
+                                       Table "public.message"
+  Column  |            Type             |                         Modifiers                          
+----------+-----------------------------+------------------------------------------------------------
+ msg_id   | integer                     | not null default nextval('message_msg_id_seq'::regclass)
+ email    | character varying(320)      | 
+ convo_id | integer                     | not null default nextval('message_convo_id_seq'::regclass)
+ time     | timestamp without time zone | not null default now()
+ content  | character varying(2000)     | not null
+Indexes:
+    "message_pkey" PRIMARY KEY, btree (msg_id)
+Foreign-key constraints:
+    "message_convo_id_fkey" FOREIGN KEY (convo_id) REFERENCES conversation(convo_id)
+    "message_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+
+                                      Table "public.organization"
+    Column    |          Type          |                           Modifiers                           
+--------------+------------------------+---------------------------------------------------------------
+ org_id       | integer                | not null default nextval('organization_org_id_seq'::regclass)
+ name         | character varying(100) | not null
+ description  | character varying(500) | 
+ phone_number | character varying(20)  | not null
+ address      | character varying(100) | not null
+ email        | character varying(320) | 
+ city         | character varying(50)  | 
+ country      | character varying(50)  | 
+Indexes:
+    "organization_pkey" PRIMARY KEY, btree (org_id)
+Check constraints:
+    "organization_email_check" CHECK (email::text ~ '^[a-zA-Z0-9\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$'::text)
+Foreign-key constraints:
+    "organization_city_fkey" FOREIGN KEY (city, country) REFERENCES location(city, country)
+Referenced by:
+    TABLE "school" CONSTRAINT "school_org_id_fkey" FOREIGN KEY (org_id) REFERENCES organization(org_id)
+    TABLE "workplace" CONSTRAINT "workplace_org_id_fkey" FOREIGN KEY (org_id) REFERENCES organization(org_id)
+
+                                     Table "public.partof"
+  Column  |          Type          |                         Modifiers                         
+----------+------------------------+-----------------------------------------------------------
+ email    | character varying(320) | not null
+ convo_id | integer                | not null default nextval('partof_convo_id_seq'::regclass)
+Indexes:
+    "partof_pkey" PRIMARY KEY, btree (email, convo_id)
+Foreign-key constraints:
+    "partof_convo_id_fkey" FOREIGN KEY (convo_id) REFERENCES conversation(convo_id)
+    "partof_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+
+                                      Table "public.post"
+ Column  |            Type             |                       Modifiers                        
+---------+-----------------------------+--------------------------------------------------------
+ pid     | integer                     | not null default nextval('post_pid_seq'::regclass)
+ wall_id | integer                     | not null default nextval('post_wall_id_seq'::regclass)
+ email   | character varying(320)      | 
+ date    | timestamp without time zone | not null default now()
+ text    | character varying(2000)     | not null
+ url     | character varying(2000)     | 
+Indexes:
+    "post_pkey" PRIMARY KEY, btree (pid)
+Foreign-key constraints:
+    "post_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    "post_wall_id_fkey" FOREIGN KEY (wall_id) REFERENCES wall(wall_id)
+Referenced by:
+    TABLE "comment" CONSTRAINT "comment_pid_fkey" FOREIGN KEY (pid) REFERENCES post(pid)
+    TABLE "postreaction" CONSTRAINT "postreaction_pid_fkey" FOREIGN KEY (pid) REFERENCES post(pid)
+
+                                 Table "public.postreaction"
+ Column |          Type          |                         Modifiers                          
+--------+------------------------+------------------------------------------------------------
+ pid    | integer                | not null default nextval('postreaction_pid_seq'::regclass)
+ email  | character varying(320) | not null
+ type   | character varying(7)   | 
+Indexes:
+    "postreaction_pkey" PRIMARY KEY, btree (pid, email)
+Check constraints:
+    "postreaction_type_check" CHECK (type::text = ANY (ARRAY['angry'::character varying, 'happy'::character varying, 'sad'::character varying, 'like'::character varying, 'excited'::character varying]::text[]))
+Foreign-key constraints:
+    "postreaction_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    "postreaction_pid_fkey" FOREIGN KEY (pid) REFERENCES post(pid)
+
+                           Table "public.school"
+ Column |  Type   |                        Modifiers                        
+--------+---------+---------------------------------------------------------
+ org_id | integer | not null default nextval('school_org_id_seq'::regclass)
+Indexes:
+    "school_pkey" PRIMARY KEY, btree (org_id)
+Foreign-key constraints:
+    "school_org_id_fkey" FOREIGN KEY (org_id) REFERENCES organization(org_id)
+Referenced by:
+    TABLE "studyperiod" CONSTRAINT "studyperiod_org_id_fkey" FOREIGN KEY (org_id) REFERENCES school(org_id)
+
+                                    Table "public.studyperiod"
+  Column   |          Type          |                          Modifiers                           
+-----------+------------------------+--------------------------------------------------------------
+ email     | character varying(320) | not null
+ org_id    | integer                | not null default nextval('studyperiod_org_id_seq'::regclass)
+ from_date | date                   | not null
+ to_date   | date                   | not null
+ edu_level | character varying(100) | not null
+Indexes:
+    "studyperiod_pkey" PRIMARY KEY, btree (email, org_id, from_date, to_date)
+Check constraints:
+    "studyperiod_check" CHECK (from_date <= to_date)
+Foreign-key constraints:
+    "studyperiod_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    "studyperiod_org_id_fkey" FOREIGN KEY (org_id) REFERENCES school(org_id)
+
+              Table "public.users"
+   Column   |          Type          | Modifiers 
+------------+------------------------+-----------
+ email      | character varying(320) | not null
+ first_name | character varying(50)  | not null
+ last_name  | character varying(50)  | not null
+ birthday   | date                   | not null
+ password   | character varying(20)  | not null
+ gender     | character varying(1)   | not null
+ city       | character varying(50)  | 
+ country    | character varying(50)  | 
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (email)
+Check constraints:
+    "users_email_check" CHECK (email::text ~ '^[a-zA-Z0-9\-.]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$'::text)
+    "users_gender_check" CHECK (gender::text = 'm'::text OR gender::text = 'f'::text OR gender::text = 'o'::text)
+Foreign-key constraints:
+    "users_city_fkey" FOREIGN KEY (city, country) REFERENCES location(city, country)
+Referenced by:
+    TABLE "comment" CONSTRAINT "comment_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "commentreaction" CONSTRAINT "commentreaction_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "follows" CONSTRAINT "follows_followed_by_fkey" FOREIGN KEY (followed_by) REFERENCES users(email)
+    TABLE "follows" CONSTRAINT "follows_follower_fkey" FOREIGN KEY (follower) REFERENCES users(email)
+    TABLE "message" CONSTRAINT "message_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "partof" CONSTRAINT "partof_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "post" CONSTRAINT "post_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "postreaction" CONSTRAINT "postreaction_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "studyperiod" CONSTRAINT "studyperiod_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "wall" CONSTRAINT "wall_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    TABLE "workperiod" CONSTRAINT "workperiod_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+
+                                     Table "public.wall"
+   Column   |          Type          |                       Modifiers                        
+------------+------------------------+--------------------------------------------------------
+ wall_id    | integer                | not null default nextval('wall_wall_id_seq'::regclass)
+ descr      | character varying(500) | 
+ permission | smallint               | not null default 0
+ email      | character varying(320) | 
+Indexes:
+    "wall_pkey" PRIMARY KEY, btree (wall_id)
+Foreign-key constraints:
+    "wall_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+Referenced by:
+    TABLE "post" CONSTRAINT "post_wall_id_fkey" FOREIGN KEY (wall_id) REFERENCES wall(wall_id)
+
+                                    Table "public.workperiod"
+  Column   |          Type          |                          Modifiers                          
+-----------+------------------------+-------------------------------------------------------------
+ email     | character varying(320) | not null
+ org_id    | integer                | not null default nextval('workperiod_org_id_seq'::regclass)
+ from_date | date                   | not null
+ to_date   | date                   | not null
+ job_title | character varying(100) | not null
+Indexes:
+    "workperiod_pkey" PRIMARY KEY, btree (email, org_id, from_date, to_date)
+Check constraints:
+    "workperiod_check" CHECK (from_date <= to_date)
+Foreign-key constraints:
+    "workperiod_email_fkey" FOREIGN KEY (email) REFERENCES users(email)
+    "workperiod_org_id_fkey" FOREIGN KEY (org_id) REFERENCES workplace(org_id)
+
+                           Table "public.workplace"
+ Column |  Type   |                         Modifiers                          
+--------+---------+------------------------------------------------------------
+ org_id | integer | not null default nextval('workplace_org_id_seq'::regclass)
+Indexes:
+    "workplace_pkey" PRIMARY KEY, btree (org_id)
+Foreign-key constraints:
+    "workplace_org_id_fkey" FOREIGN KEY (org_id) REFERENCES organization(org_id)
+Referenced by:
+    TABLE "workperiod" CONSTRAINT "workperiod_org_id_fkey" FOREIGN KEY (org_id) REFERENCES workplace(org_id)
+

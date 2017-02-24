@@ -1,0 +1,2 @@
+The check constraints can be found in Q2_schema in the CREATE statement for Users, CommentReaction,
+PostReaction, StudyPeriod and WorkPeriod.

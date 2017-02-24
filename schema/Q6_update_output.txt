@@ -1,0 +1,18 @@
+Relations used in the update statements are the same as in Q5
+
+
+Output of first statement
+
+UPDATE 0
+
+Output of second statement
+
+UPDATE 38
+
+Output of third statement
+
+DELETE 74
+
+Output of fourth statement
+
+INSERT 0 74

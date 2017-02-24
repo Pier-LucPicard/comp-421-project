@@ -1,0 +1,7 @@
+For question 9, we have included realistic data generation using a script as well as complex queries using
+OCL Aggregate functions and analytical queries.
+
+The data generation script is contained in Q9_datagenerated.sql. It was created using node.js. The source
+code of the generator is located in the "generator" folder.
+
+The advanced features query can be found in Q9_advanced.sql

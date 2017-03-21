@@ -1,3 +1,8 @@
+<?php
+session_start();
+if(isset($_SESSION['authenticated']))
+    unset($_SESSION['authenticated']);
+?>
 <html>
 <head>
 	<link rel="stylesheet" href="./material.min.css">
@@ -33,7 +38,7 @@
     
     </div>
     <br>
-      <form id="form_login1" class="">
+      <form id="form_login" class="">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="email" name="email" maxlength="320" required>
         <label class="mdl-textfield__label" >Email Address</label>

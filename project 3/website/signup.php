@@ -12,13 +12,14 @@
         $(document).on("submit", "#form_signup", function signup(e){
             e.preventDefault();
             if(verifyForm()){
+                var email=$(this).find("input[name=email]").val();
                 var data=$(this).serialize()+"&type=signup";
                 console.log(data);
                 $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
                     console.log("result "+result);
                     var json=$.parseJSON(result);
                     if(json.success){
-                        document.location.href="user.php?email=<?php echo $_SESSION['email']; ?>";
+                        document.location.href="user.php?email="+email;
                     }else{
                         alert(json.info);
                     }

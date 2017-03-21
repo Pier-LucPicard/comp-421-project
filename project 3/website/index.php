@@ -1,7 +1,3 @@
-<?php
-session_start();
-unset($_SESSION['authenticated']);
-?>
 <html>
 <head>
     <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
@@ -14,10 +10,9 @@ unset($_SESSION['authenticated']);
                 url: "queries.php",
                 data: data
             }).done(function(result){
-                console.log(result);
                 var json=$.parseJSON(result);
                 if(json.success){
-                    document.location.href="user.php?email=<?php echo $_SESSION['email']; ?>";
+                    document.location.href="user.php?email="+json.user.email;
                 }else alert(json.info);
             });
         });

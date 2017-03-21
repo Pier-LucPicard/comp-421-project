@@ -1,0 +1,29 @@
+Output of analyze:
+ANALYZE
+
+Output of explain:
+                         QUERY PLAN                         
+------------------------------------------------------------
+ Seq Scan on message  (cost=0.00..14.40 rows=440 width=130)
+(1 row)
+
+
+Output of delete:
+DELETE 0
+
+Output of explain (before updating the table statistics):
+                         QUERY PLAN                         
+------------------------------------------------------------
+ Seq Scan on message  (cost=0.00..14.40 rows=440 width=130)
+(1 row)
+
+
+Ouput of analyze:
+ANALYZE
+
+Output of explain (after updating the table statistics):
+                         QUERY PLAN                         
+------------------------------------------------------------
+ Seq Scan on message  (cost=0.00..14.40 rows=440 width=130)
+(1 row)
+

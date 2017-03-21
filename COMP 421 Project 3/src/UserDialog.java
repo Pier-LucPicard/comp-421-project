@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class UserDialog extends JDialog {
 
@@ -17,6 +20,10 @@ public class UserDialog extends JDialog {
 	private SearchListener listener;
 	private JTextField textEmail;
 	private String email;
+	private JLabel lblEmail;
+	private JCheckBox checkFollowed;
+	private JCheckBox checkFollowing;
+	private JCheckBox checkConversation;
 
 	/**
 	 * Create the dialog.
@@ -30,16 +37,27 @@ public class UserDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		{
-			JLabel lblEmail = new JLabel("Email:");
-			contentPanel.add(lblEmail);
+			lblEmail = new JLabel("Email:");
 		}
 		{
 			textEmail = new JTextField();
-			contentPanel.add(textEmail);
 			textEmail.setColumns(10);
 		}
+		
+		checkFollowed = new JCheckBox("Followed by me");
+		
+		checkFollowing = new JCheckBox("Following me");
+		checkFollowing.setToolTipText("");
+		
+		checkConversation = new JCheckBox("In conversation with me");
+		checkConversation.setToolTipText("");
+		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		contentPanel.add(lblEmail);
+		contentPanel.add(textEmail);
+		contentPanel.add(checkFollowed);
+		contentPanel.add(checkFollowing);
+		contentPanel.add(checkConversation);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -62,5 +80,16 @@ public class UserDialog extends JDialog {
 	public String getEmail(){
 		return this.email;
 	}
-
+	
+	public boolean isFollowing(){
+		return checkFollowing.isSelected();
+	}
+	
+	public boolean isFollowed(){
+		return checkFollowed.isSelected();
+	}
+	
+	public boolean inConversation(){
+		return checkConversation.isSelected();
+	}
 }

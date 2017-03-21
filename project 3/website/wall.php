@@ -40,7 +40,6 @@ if($wall==0)
     $(document).ready(function ready(){
         var data={type:"wall", wall_id:<?php echo $wall; ?>};
         $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
-            console.log(result);
             var json=$.parseJSON(result);
             if(!json.success){
                 $("body").html("");
@@ -105,6 +104,8 @@ if($wall==0)
         cell.find(".post_title").text(post.first_name+" "+post.last_name+" - "+post.date.substring(0,19));
         cell.find(".post_content").text(post.text);
         cell.data("pid", post.pid);
+        if(post.email!="<?php echo $_SESSION['email'];?>")
+            cell.find(".delete_post").hide();
         if(post.url!="")
             $("<a></a>").attr("href", post.url).text(post.url).appendTo(cell.find(".post_url"));
         cell.find(".header_comments").text(post.comments.length+" comments");
@@ -139,11 +140,15 @@ if($wall==0)
         commentCell.find(".check_angry").prop("checked", comment.my_angry);
         commentCell.find(".check_excited").prop("checked", comment.my_excited);
         commentCell.prependTo(cell.find(".post_comments"));
+        if(comment.email!="<?php echo $_SESSION['email']; ?>")
+            commentCell.find(".delete_comment").hide();
+        var numComments=cell.find(".post_comments").find(".comment_cell").length;
+        cell.find(".header_comments").text(numComments+" comments");
+        updateReactionCount(commentCell);
     }
 
     $(document).on("change", ".post_cell .div_post_reaction input[type=checkbox]", function reactPost(e){
         var checked=$(this).is(":checked");
-        console.log("trigger);"+checked);
         var current=$(this);
         var cell=$(this).closest(".post_cell");
         if(checked){
@@ -188,10 +193,30 @@ if($wall==0)
         });
     });
 
+    $(document).on("click", ".delete_comment", function deleteComment(){
+        var cell=$(this).closest(".comment_cell");
+        var data={type:"delete_comment", cid:cell.data("cid")};
+        $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
+            var post=cell.closest(".post_cell");
+            var numComments=post.find(".post_comments").find(".comment_cell").length-1;
+            post.find(".header_comments").text(numComments+" comments");
+            cell.remove();
+        });
+    });
+
+    $(document).on("click", ".delete_post", function deletePost(){
+        var cell=$(this).closest(".post_cell");
+        var data={type:"delete_post", pid:cell.data("pid")};
+        console.log(data);
+        $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
+            console.log(data);
+            cell.remove();
+        });
+    });
 </script>
 <div align="center">
     <div id="wall_owner"></div>
-    <div id="wall_description"></div>
+    <div id="wall_description"></div><br>
     <form id="form_submit_post">
         <input name="url" maxlength="2000" placeholder="Link (optional)"><br>
         <textarea name="text" placeholder="Your post..." maxlength="2000" required></textarea><br>
@@ -202,7 +227,10 @@ if($wall==0)
 
 </div>
 <div id="post_template" class="post_cell" style="display: none">
-    <div class="post_title"></div>
+    <div>
+        <div class="post_title" style="display: inline-block"></div>
+        <button class="delete_post">Delete</button>
+    </div>
     <div class="post_url"></div>
     <div class="post_content"></div>
     <div class="div_post_reaction">
@@ -223,7 +251,10 @@ if($wall==0)
     </div>
 </div>
 <div id="comment_template" class="comment_cell" style="display: none">
-    <div class="comment_title"></div>
+    <div>
+        <div class="comment_title"style="display: inline-block"></div>
+        <button class="delete_comment">Delete</button>
+    </div>
     <div class="comment_text"></div>
     <div class="div_comment_reaction">
         <input type="checkbox" name="like" class="check_like"><span class="num_like">0 Like</span>

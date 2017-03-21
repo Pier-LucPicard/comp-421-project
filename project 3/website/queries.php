@@ -21,7 +21,7 @@ else if($type=="user")
 else if($type=="wall")
     queryWall();
 else if($type=="list_users")
-    queryListusers();
+    queryListUsers();
 else if($type=="insert_post")
     queryInsertpost();
 else if($type=="insert_comment")
@@ -30,19 +30,59 @@ else if($type=="react_post")
     queryReactPost();
 else if($type=="react_comment")
     queryReactComment();
+else if($type=="delete_comment")
+    queryDeleteComment();
+else if($type=="delete_post")
+    queryDeletePost();
+
+function queryDeleteComment(){
+    global $db;
+    $cid=intval($_POST['cid']);
+    $stmt=$db->prepare("DELETE FROM CommentReaction WHERE cid=?");
+    $stmt->execute(array($cid));
+    $stmt=$db->prepare("DELETE FROM Comment WHERE cid=?");
+    $stmt->execute(array($cid));
+}
+
+function queryDeletePost(){
+    global $db;
+    $pid=intval($_POST['pid']);
+    $stmt=$db->prepare("SELECT cid FROM Comment WHERE pid=?");
+    $stmt->execute(array($pid));
+    $cids=$stmt->fetchAll(PDO::FETCH_COLUMN);
+    $strCids=implode(",", $cids);
+    if($strCids=="")
+        $strCids="-1";
+    $db->query("DELETE FROM CommentReaction WHERE cid IN ($strCids)");
+    $db->query("DELETE FROM Comment WHERE cid IN ($strCids)");
+    $stmt=$db->prepare("DELETE FROM PostReaction WHERE pid=?");
+    $stmt->execute(array($pid));
+    $stmt=$db->prepare("DELETE FROM Post WHERE pid=?");
+    $stmt->execute(array($pid));
+}
 
 function queryDeleteWall(){
     global $db;
     $wall_id=intval($_POST['wall_id']);
     $stmt=$db->prepare("SELECT pid FROM Post WHERE wall_id=?");
     $stmt->execute(array($wall_id));
-    $pids=$stmt->fetchColumn();
+    $pids=$stmt->fetchAll(PDO::FETCH_COLUMN);
     $strPids=implode(",", $pids);
-    echo $strPids;
-    $stmt->query("SELECT cid FROM Comment WHERE pid IN ($strPids)");
-    $cids=$stmt->fetchColumn();
+    if($strPids=="")
+        $strPids="-1";
+    echo "aa".$strPids."aa";
+    $stmt=$db->query("SELECT cid FROM Comment WHERE pid IN ($strPids)");
+    $cids=$stmt->fetchAll(PDO::FETCH_COLUMN);
     $strCids=implode(",", $cids);
-    echo $strCids;
+    if($strCids=="")
+        $strCids="-1";
+    echo "bb".$strCids."bb";
+    $db->query("DELETE FROM CommentReaction WHERE cid IN ($strCids)");
+    $db->query("DELETE FROM PostReaction WHERE pid IN ($strPids)");
+    $db->query("DELETE FROM Comment WHERE pid IN ($strPids)");
+    $db->query("DELETE FROM Post WHERE pid IN ($strPids)");
+    $stmt=$db->prepare("DELETE FROM Wall WHERE wall_id=?");
+    $stmt->execute(array($wall_id));
 }
 
 function queryInsertWall(){
@@ -100,7 +140,8 @@ function querySignup(){
 
 function queryListUsers(){
     global $db;
-    $stmt=$db->query("SELECT first_name, last_name, email FROM Users LIMIT 50");
+    $stmt=$db->prepare("SELECT first_name, last_name, email FROM Users WHERE email LIKE :filter OR CONCAT_WS(' ', first_name, last_name) LIKE :filter ORDER BY email OFFSET :offset LIMIT 10");
+    $stmt->execute(array(":filter"=>"%".$_POST['filter']."%", ":offset"=>intval($_POST['offset'])));
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
 

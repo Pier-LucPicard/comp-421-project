@@ -66,17 +66,16 @@ $email=isset($_GET['email'])?$_GET['email']:"";
         });
 
         $(document).on("click", ".wall_delete", function deleteWall(){
-            /*
-            var data={type:"delete_wall"}
+            var _this=$(this);
+            var data={type:"delete_wall", wall_id:$(this).closest(".wall_cell").data("wall_id")};
             $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
                 console.log(result);
+                _this.closest(".wall_cell").remove();
+                numWalls--;
+                if(numWalls==0)
+                    $("#wall_info").text("This user has no walls.");
             });
             return;
-            $(this).closest(".wall_cell").remove();
-            numWalls--;
-            if(numWalls==0)
-                $("#wall_info").text("This user has no walls.");
-            */
         });
 
     </script>
@@ -98,7 +97,7 @@ $email=isset($_GET['email'])?$_GET['email']:"";
 <?php include "menubar.php"; ?>
 <div id="wall_cell_template" class="wall_cell" style="display: none">
     <a class="wall_link"></a>
-    <a class="wall_delete" href="#" style="display: none;">Delete</a>
+    <a class="wall_delete" href="#">Delete</a>
 </div>
 <div id="div_user" align="center">
     <div id="my_profile">My Profile</div>
@@ -108,6 +107,7 @@ $email=isset($_GET['email'])?$_GET['email']:"";
     <div id="user_gender"></div>
     <div id="user_location"></div>
     <form id="form_add_wall" style="display: none">
+        <br>
         <textarea name="descr" placeholder="description" maxlength="500" required></textarea><br>
         <input type="submit" value="Create wall">
     </form>

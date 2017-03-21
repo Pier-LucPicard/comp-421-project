@@ -53,6 +53,7 @@ public class Application extends JFrame {
 	private int limit=0;
 	private String lastSearch="";
 	private final static int SEARCH_LIMIT=20;
+	private String email="haloed-reason@yahoo.us";
 
 	/**
 	 * Launch the application.
@@ -208,6 +209,7 @@ public class Application extends JFrame {
 	
 	private void queryConversations(){
 		try{
+			lastSearch="conversations";
 			String email=JOptionPane.showInputDialog("Enter the user's email:");
 			connection=DriverManager.getConnection(Application.CONNECTION, Application.USERNAME, Application.PASSWORD);
 			PreparedStatement statement=connection.prepareStatement("SELECT convo_id, email, content FROM Message WHERE email=? and convo_id IN"

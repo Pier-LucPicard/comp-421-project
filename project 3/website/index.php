@@ -1,5 +1,8 @@
 <html>
 <head>
+	<link rel="stylesheet" href="./material.min.css">
+	<script src="./material.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
     <script type="text/javascript">
         $(document).on("submit", "#form_login", function login(e){
@@ -20,13 +23,39 @@
 </head>
 <body>
 <div align="center">
-    <form id="form_login" style="display: inline">
-        <input type="email" name="email" placeholder="Email Address" maxlength="320" required><br>
-        <input type="password" name="password" placeholder="Password" maxlength="20" required><br>
+<br>
+    <div class="mdl-card mdl-shadow--6dp">
+			<div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+    <div class="mdl-card__supporting-text">
+        <span class="mdl-layout-title" style="color:white">Comp 421 Project 3</span>
+    </div>
+
+    
+    </div>
+    <br>
+      <form id="form_login1" class="">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="email" name="email" maxlength="320" required>
+        <label class="mdl-textfield__label" >Email Address</label>
+        </div>
+        <br>
+         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="password" name="password" maxlength="20" required>
+        <label class="mdl-textfield__label" >Password</label>
+        </div>
+<br>
+<br>
         <input type="hidden" name="type" value="login">
-        <input type="submit" value="Login">
+        <input class="mdl-button mdl-js-button  mdl-button--raised mdl-button--colored" type="submit" value="Login">
     </form>
-    <a href="signup.php"><button>Sign Up</button></a>
+<br>
+<a href="signup.php"><button class="mdl-button mdl-js-button mdl-button--accent">Sign Up</button></a>
+<br>
+    </div>
+      
 </div>
+
+
+
 </body>
 </html>

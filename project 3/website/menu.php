@@ -7,44 +7,43 @@ if(!isset($_SESSION['authenticated']))
 <head>
     <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
     <style type="text/css">
-        .wall_cell{
+        .user_cell{
             margin:5px;
             border-style: solid;
             border-color: black;
             border-width: 2px;
             padding-bottom: 2px;
         }
-        .wall_cell .wall_owner{
+        .user_cell .user_name{
             color:blue;
         }
     </style>
     <script>
         $(document).ready(function ready(){
-            var data={type:"list_walls"};
+            var data={type:"list_users"};
             $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
                 console.log(result);
                 var json=$.parseJSON(result);
                 for(var i=0;i<json.length;i++){
-                    var wall=json[i];
-                    var cell=$("#wall_template").clone().removeAttr("id").show().appendTo($("#wall_list"));
-                    cell.data("wall_id", wall.wall_id);
-                    cell.find(".wall_owner").text(wall.first_name+" "+wall.last_name);
-                    cell.find(".wall_description").text(wall.descr);
+                    var user=json[i];
+                    var cell=$("#user_template").clone().removeAttr("id").show().appendTo($("#user_list"));
+                    cell.data("email", user.email);
+                    cell.find(".user_name").text(user.first_name+" "+user.last_name+" ("+user.email+")");
                 }
             });
         });
         $(document).on("click", ".button_visit", function visitWall(){
-            document.location.href="wall.php?wall_id="+$(this).closest(".wall_cell").data("wall_id");
+            document.location.href="user.php?email="+$(this).closest(".user_cell").data("email");
         });
     </script>
 </head>
 <body>
-<div align="center" id="wall_list">
+<?php include "menubar.php"; ?>
+<div align="center" id="user_list">
 </div>
-<div id="wall_template" class="wall_cell" style="display: none">
-    <div class="wall_owner"></div>
-    <div class="wall_description"></div>
-    <button class="button_visit">Visit Wall</button>
+<div id="user_template" class="user_cell" style="display: none">
+    <div class="user_name"></div>
+    <button class="button_visit">Visit User Profile</button>
 </div>
 </body>
 </html>

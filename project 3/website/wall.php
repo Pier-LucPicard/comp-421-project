@@ -35,6 +35,7 @@ if($wall==0)
     </style>
 </head>
 <body>
+<?php include "menubar.php"; ?>
 <script>
     $(document).ready(function ready(){
         var data={type:"wall", wall_id:<?php echo $wall; ?>};
@@ -46,6 +47,8 @@ if($wall==0)
                 $("<div></div>").attr("align", "center").text("Invalid wall.").appendTo($("body"));
                 return;
             }
+            $("#wall_owner").text("Wall owner: "+json.wall.first_name+" "+json.wall.last_name+" ("+json.wall.email+")");
+            $("#wall_description").text("Description: "+json.wall.descr);
             for(var i=0;i<json.posts.length;i++){
                 insertPost(json.posts[i]);
             }
@@ -187,6 +190,8 @@ if($wall==0)
 
 </script>
 <div align="center">
+    <div id="wall_owner"></div>
+    <div id="wall_description"></div>
     <form id="form_submit_post">
         <input name="url" maxlength="2000" placeholder="Link (optional)"><br>
         <textarea name="text" placeholder="Your post..." maxlength="2000" required></textarea><br>

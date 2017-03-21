@@ -8,12 +8,20 @@ try{
 }
 if($type=="login")
     queryLogin();
+else if($type=="signup")
+    querySignup();
 else if(!isset($_SESSION['authenticated']))
     header("Location: index.php");
+else if($type=="delete_wall")
+    queryDeleteWall();
+else if($type=="insert_wall")
+    queryInsertWall();
+else if($type=="user")
+    queryUser();
 else if($type=="wall")
     queryWall();
-else if($type=="list_walls")
-    queryListWalls();
+else if($type=="list_users")
+    queryListusers();
 else if($type=="insert_post")
     queryInsertpost();
 else if($type=="insert_comment")
@@ -23,9 +31,76 @@ else if($type=="react_post")
 else if($type=="react_comment")
     queryReactComment();
 
-function queryListWalls(){
+function queryDeleteWall(){
     global $db;
-    $stmt=$db->query("SELECT wall_id, descr, permission, Wall.email AS email, first_name, last_name FROM Wall, Users WHERE Wall.email=Users.email LIMIT 50");
+    $wall_id=intval($_POST['wall_id']);
+    $stmt=$db->prepare("SELECT pid FROM Post WHERE wall_id=?");
+    $stmt->execute(array($wall_id));
+    $pids=$stmt->fetchColumn();
+    $strPids=implode(",", $pids);
+    echo $strPids;
+    $stmt->query("SELECT cid FROM Comment WHERE pid IN ($strPids)");
+    $cids=$stmt->fetchColumn();
+    $strCids=implode(",", $cids);
+    echo $strCids;
+}
+
+function queryInsertWall(){
+    global $db;
+    $stmt=$db->prepare("INSERT INTO Wall (email ,descr, permission) VALUES (?, ?, 0)");
+    $stmt->execute(array($_SESSION['email'], $_POST['descr']));
+    echo json_encode(array("wall_id"=>$db->lastInsertId('wall_wall_id_seq')));
+}
+
+function queryUser(){
+    global $db;
+    $stmt=$db->prepare("SELECT email, first_name, last_name, birthday, gender, city, country FROM Users WHERE email=?");
+    $stmt->execute(array($_POST['email']));
+    $row=$stmt->fetch(PDO::FETCH_ASSOC);
+    if(!$row){
+        echo json_encode(array("success"=>false, "info"=>"This user does not exist"));
+    }else{
+        $stmt=$db->prepare("SELECT * FROM Wall WHERE email=?");
+        $stmt->execute(array($_POST['email']));
+        $walls=$stmt->fetchAll(PDO::FETCH_ASSOC);
+        $row['walls']=$walls;
+        echo json_encode(array("success"=>true, "user"=>$row));
+    }
+}
+
+function querySignup(){
+    global $db;
+    $city=isset($_POST['city'])?$_POST['city']:null;
+    $country=isset($_POST['country'])?$_POST['country']:null;
+    $db->beginTransaction();
+    $stmt=$db->prepare("SELECT * FROM Users WHERE email=?");
+    $stmt->execute(array($_POST['email']));
+    if($stmt->fetch(PDO::FETCH_ASSOC)){
+        $db->commit();
+        echo json_encode(array("success"=>false, "info"=>"This email is already registered."));
+    }else{
+        if($city!=null){
+            $stmt=$db->prepare("SELECT * FROM Location WHERE city=? AND country=?");
+            $stmt->execute(array($_POST['city'], $_POST['country']));
+            if(!$stmt->fetch(PDO::FETCH_ASSOC)){
+                $stmt=$db->prepare("INSERT INTO Location (city, country) VALUES (?, ?)");
+                $stmt->execute(array($_POST['city'], $_POST['country']));
+            }
+        }
+        $stmt=$db->prepare("INSERT INTO Users (email, first_name, last_name, birthday, password, gender, city, country) VALUES (?,?,?,?,?,?,?,?)");
+        $stmt->execute(array($_POST['email'], $_POST['first_name'], $_POST['last_name'], $_POST['birthday'], $_POST['password'], $_POST['gender'], $city, $country));
+        $db->commit();
+        $_SESSION['authenticated']=true;
+        $_SESSION['email']=$_POST['email'];
+        $_SESSION['first_name']=$_POST['first_name'];
+        $_SESSION['last_name']=$_POST['last_name'];
+        echo json_encode(array("success"=>true));
+    }
+}
+
+function queryListUsers(){
+    global $db;
+    $stmt=$db->query("SELECT first_name, last_name, email FROM Users LIMIT 50");
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
 }
 
@@ -101,11 +176,12 @@ function queryLogin(){
 function queryWall(){
     global $db;
     $wall_id=$_POST['wall_id'];
-    $stmt=$db->prepare("SELECT * FROM Wall WHERE wall_id=:wall_id");
+    $stmt=$db->prepare("SELECT wall_id, descr, permission, Wall.email AS email, (SELECT first_name FROM Users WHERE Users.email=Wall.email) AS first_name, 
+(SELECT last_name FROM Users WHERE Users.email=Wall.email) AS last_name FROM Wall WHERE wall_id=:wall_id");
     $stmt->bindParam(":wall_id", $wall_id, PDO::PARAM_INT);
     $stmt->execute();
-    $row=$stmt->fetch(PDO::FETCH_ASSOC);
-    if($row==false){
+    $wall=$stmt->fetch(PDO::FETCH_ASSOC);
+    if($wall==false){
         echo json_encode(array("success"=>false, "info"=>"This wall does not exist."));
     }else{
         $stmt=$db->prepare("SELECT pid, wall_id, Post.email AS email, date, text, url, first_name, last_name, (SELECT COUNT(*) FROM PostReaction WHERE PostReaction.pid=Post.pid AND type='like') AS like, 
@@ -133,6 +209,6 @@ FROM Comment, Users WHERE pid=:pid AND Users.email=Comment.email ORDER BY time A
             $comments=$stmt->fetchAll(PDO::FETCH_ASSOC);
             $row['comments']=$comments;
         }
-        echo json_encode(array("success"=>true, "posts"=>$rows));
+        echo json_encode(array("success"=>true, "posts"=>$rows, "wall"=>$wall));
     }
 }

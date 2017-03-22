@@ -14,7 +14,7 @@
 	<script src="./material.min.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<div class="mdl-layout--fixed-header">
+
 <header class="mdl-layout__header">
     <div class="mdl-layout__header-row">
       <!-- Title -->
@@ -31,6 +31,12 @@
       </nav>
     </div>
   </header>
-  
-<br>
-</div>
+<div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">Title</span>
+    <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="menu.php">Find users</a>
+        <a class="mdl-navigation__link" href="user.php?email=<?php echo $_SESSION['email'] ?>">My profile</a>
+   
+<a  class="mdl-navigation__link" id="link_logout" href="index.php">Logout</a>
+    </nav>
+  </div>

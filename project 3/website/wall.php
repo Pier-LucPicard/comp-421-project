@@ -35,6 +35,7 @@ if($wall==0)
     </style>
 </head>
 <body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 <?php include "menubar.php"; ?>
 <script>
     $(document).ready(function ready(){
@@ -214,6 +215,7 @@ if($wall==0)
         });
     });
 </script>
+<div class="mdl-layout__content">
 <div align="center">
     <div id="wall_owner"></div>
     <div id="wall_description"></div><br>
@@ -225,6 +227,7 @@ if($wall==0)
 </div>
 <div align="center" id="post_list">
 
+</div>
 </div>
 <div id="post_template" class="post_cell" style="display: none">
     <div>
@@ -238,7 +241,7 @@ if($wall==0)
         <input type="checkbox" name="happy" class="check_happy"><span class="num_happy">0 Happy</span>
         <input type="checkbox" name="sad" class="check_sad"><span class="num_sad">0 Sad</span>
         <input type="checkbox" name="angry" class="check_angry"><span class="num_angry">0 Angry</span>
-        <input type="checkbox" name="excited" class="check_excited""><span class="num_excited">0 Excited</span>
+        <input type="checkbox" name="excited" class="check_excited"><span class="num_excited">0 Excited</span>
     </div>
     <div class="div_comments">
         <div align="center">
@@ -263,6 +266,7 @@ if($wall==0)
         <input type="checkbox" name="angry" class="check_angry"><span class="num_angry">0 Angry</span>
         <input type="checkbox" name="excited" class="check_excited"><span class="num_excited">0 Excited</span>
     </div>
+</div>
 </div>
 </body>
 </html>

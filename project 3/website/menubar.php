@@ -32,7 +32,7 @@
     </div>
   </header>
 <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
+    <span class="mdl-layout-title">COMP 421 Project 3</span>
     <nav class="mdl-navigation">
         <a class="mdl-navigation__link" href="menu.php">Find users</a>
         <a class="mdl-navigation__link" href="user.php?email=<?php echo $_SESSION['email'] ?>">My profile</a>

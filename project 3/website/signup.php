@@ -1,5 +1,9 @@
 <html>
 <head>
+
+	<link rel="stylesheet" href="./material.min.css">
+	<script src="./material.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="jquery-3.2.0.min.js"></script>
     <script>
         $(document).ready(function ready(){
@@ -40,31 +44,95 @@
             if($(this).is(":checked")){
                 $("#form_signup input[name=city]").removeAttr("disabled");
                 $("#form_signup input[name=country]").removeAttr("disabled");
+		$("#form_signup input[name=city]").css("background", "");
+		$("#form_signup input[name=country]").css("background", "");
             }else{
                 $("#form_signup input[name=city]").attr("disabled", "");
+		$("#form_signup input[name=city]").css("background", "lightgrey");
                 $("#form_signup input[name=country]").attr("disabled", "");
+		$("#form_signup input[name=country]").css("background", "lightgrey");
             }
         });
     </script>
 </head>
 <body>
 <div align="center">
-    <form id="form_signup" style="display: inline">
-        <input name="first_name" placeholder="First name" maxlength="50" required><br>
-        <input name="last_name" placeholder="Last name" maxlength="50" required><br>
-        <input type="radio" name="gender" value="m" checked="true">Male<br>
-        <input type="radio" name="gender" value="f">Female<br>
-        <input type="date" name="birthday" required><br>
-        <input type="checkbox" class="check_location" checked="checked">Share location<br>
-        <input name="city" placeholder="City" maxlength="50" required><br>
-        <input name="country" placeholder="Country" maxlength="50" required><br>
-        <input type="email" name="email" placeholder="Email" maxlength="320" required><br>
-        <input type="password" name="password" placeholder="Password" maxlength="20" required><br>
-        <input type="password" class="repeat_password" placeholder="Repeat password" maxlength="20" required><br>
-        <input type="checkbox" class="check_agree">I agree with the <a id="terms" href="#">Terms and Conditions</a><br>
-        <input type="submit" value="Sign Up">
-    </form>
-    <a href="index.php"><button>Back to login</button></a>
+<br>
+    <div class="mdl-card mdl-shadow--4dp">
+        <div class="mdl-card__title mdl-color--primary mdl-color-text--white" align="center">
+            <h2 class="mdl-card__title-text" align="center">Sign Up</h2>
+        </div>
+        <form id="form_signup" style="display: inline">
+		
+		<div class="mdl-grid">
+		<div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--6-col">
+	
+    			<input class="mdl-textfield__input" name="first_name" maxlength="50" required>
+    			<label class="mdl-textfield__label" for="sample1">First name</label>
+
+
+  		</div>
+<div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--6-col">
+    			<input class="mdl-textfield__input" name="last_name" maxlength="50" required>
+    			<label class="mdl-textfield__label" for="sample1">Last name</label>
+  		</div>
+</div>
+		
+		<div>
+		<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+  			<input id="option-1"  class="mdl-radio__button" type="radio" name="gender" value="m" checked>
+  			<span class="mdl-radio__label">Male</span>
+		</label>
+		<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+  			<input  id="option-2" class="mdl-radio__button" type="radio" name="gender" value="f">
+  			<span class="mdl-radio__label">Female</span>
+		</label>
+		</div>
+		<div class="mdl-textfield mdl-js-textfield">
+		 <input class="" type="date" name="birthday" required><br>
+		</div>
+		<div align="center" >
+			<label   style="display:inline" class="mdl-switch mdl-js-switch mdl-js-ripple-effect" style="padding-left:40px" for="checkbox-1">
+				<span class="mdl-switch__label">Share location</span>
+  				<input  type="checkbox" id="checkbox-1" class="mdl-switch__input check_location" checked="checked">
+			</label>
+		</div>
+<div class="mdl-grid">
+		<div class="mdl-textfield mdl-js-textfield  mdl-cell mdl-cell--6-col">
+    			<input class="mdl-textfield__input" name="city"  maxlength="50" required>
+    			<label class="mdl-textfield__label" >City</label>
+  		</div>
+		<div class="mdl-textfield mdl-js-textfield  mdl-cell mdl-cell--6-col">
+    			<input class="mdl-textfield__input" name="country" maxlength="50" required>
+    			<label class="mdl-textfield__label">Country</label>
+  		</div>
+</div>
+<hr>
+		<div class="mdl-textfield mdl-js-textfield">
+    			<input class="mdl-textfield__input" type="email" name="email" maxlength="320" required>
+    			<label class="mdl-textfield__label">Email</label>
+  		</div>
+		<div class="mdl-textfield mdl-js-textfield">
+    			<input class="mdl-textfield__input" type="password" name="password" maxlength="20" required>
+    			<label class="mdl-textfield__label">Password</label>
+  		</div>
+		<div class="mdl-textfield mdl-js-textfield">
+    			<input class="mdl-textfield__input repeat_password" type="password" name="password" maxlength="20" required>
+    			<label class="mdl-textfield__label">Repeat password</label>
+  		</div>
+
+<div class="mdl-textfield mdl-js-textfield">
+		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="check_agree">
+  			<input type="checkbox" id="check_agree" class="mdl-checkbox__input check_agree">
+ 			<span class="mdl-checkbox__label">I agree with the <a id="terms" href="#">Terms and Conditions</a></span>
+		</label>
+            </div>
+<hr>
+            <input class="mdl-button mdl-js-button  mdl-button--raised mdl-button--colored" type="submit" value="Sign Up">
+        </form>
+        <a href="index.php"><button class="mdl-button mdl-js-button mdl-button--accent">Back to login</button></a>
+<br>
+    </div>
 </div>
 </body>
 </html>

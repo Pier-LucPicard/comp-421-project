@@ -113,16 +113,16 @@ if($wall==0)
         for(var j=0;j<post.comments.length;j++){
             insertComment(post.comments[j], cell);
         }
-        updateReactionCount(cell);
+        updateReactionCount(cell, ".div_post_reaction");
         $("#post_list").prepend(cell);
     }
 
-    function updateReactionCount(cell){
-        cell.find(".num_like").text(cell.data("like")+" Like");
-        cell.find(".num_happy").text(cell.data("happy")+" Happy");
-        cell.find(".num_sad").text(cell.data("sad")+" Sad");
-        cell.find(".num_angry").text(cell.data("angry")+" Angry");
-        cell.find(".num_excited").text(cell.data("excited")+" Excited");
+    function updateReactionCount(cell, componentClass){
+        cell.find(componentClass+" .num_like").text(cell.data("like")+" Like");
+        cell.find(componentClass+" .num_happy").text(cell.data("happy")+" Happy");
+        cell.find(componentClass+" .num_sad").text(cell.data("sad")+" Sad");
+        cell.find(componentClass+" .num_angry").text(cell.data("angry")+" Angry");
+        cell.find(componentClass+" .num_excited").text(cell.data("excited")+" Excited");
     }
 
     function insertComment(comment, cell){
@@ -145,7 +145,7 @@ if($wall==0)
             commentCell.find(".delete_comment").hide();
         var numComments=cell.find(".post_comments").find(".comment_cell").length;
         cell.find(".header_comments").text(numComments+" comments");
-        updateReactionCount(commentCell);
+        updateReactionCount(commentCell, ".div_comment_reaction");
     }
 
     $(document).on("change", ".post_cell .div_post_reaction input[type=checkbox]", function reactPost(e){
@@ -167,7 +167,7 @@ if($wall==0)
         if(!$(this).is(":checked"))
             data["delete"]=true;
         $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
-            updateReactionCount(cell);
+            updateReactionCount(cell, ".div_post_reaction");
         });
     });
 
@@ -190,7 +190,7 @@ if($wall==0)
         if(!$(this).is(":checked"))
             data["delete"]=true;
         $.ajax({method:"POST", url:"queries.php", data:data}).done(function(result){
-            updateReactionCount(cell);
+            updateReactionCount(cell, ".div_comment_reaction");
         });
     });
 

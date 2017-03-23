@@ -1,0 +1,3 @@
+Before filtering {"I finished my comp421 assignment.","I Love comp421 and sql!","I have a very good gpa"}
+The data has been filtered. The flagged users are : {gray-pig@videotron.fr,haloed-reason@yahoo.us,possessive-noise@mac.us}
+Value of inserted posts after filtering spam: I Love ******* and ***!, I have a very good ***, I finished my ******* **********.

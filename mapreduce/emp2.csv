@@ -1,0 +1,11 @@
+10001,Douglas,Luiz,Finance,Y,,8000
+10004,Jamie,Sherman,Finance,Y,,7500
+100011,Bob,Law,Finance,Y,,6543
+10002,Jimmy,Massey,Finance,N,10001,5000
+10003,Jody,Hopkins,Finance,N,10001,6000
+10005,Elisa,Hunter,Finance,N,10004,5500
+10006,Gene,Padilla,Finance,N,10004,6000
+10007,Rickey,Rivera,Finance,N,10004,6300
+10008,Lela,Woods,HR,Y,,5600
+10009,Louise,Lawson,HR,N,10008,4300
+10010,Amanda,Roberts,HR,N,10008,4500

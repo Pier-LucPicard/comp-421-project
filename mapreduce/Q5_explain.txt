@@ -1,0 +1,146 @@
+#--------------------------------------------------
+# Map Reduce Plan
+#--------------------------------------------------
+MapReduce node scope-212
+Map Plan
+Split - scope-242
+|   |
+|   employees: Local Rearrange[tuple]{int}(false) - scope-235
+|   |   |
+|   |   Project[int][0] - scope-237
+|   |
+|   |---counted: New For Each(false,false)[bag] - scope-223
+|       |   |
+|       |   Project[int][0] - scope-224
+|       |   |
+|       |   POUserFunc(org.apache.pig.builtin.COUNT$Initial)[tuple] - scope-225
+|       |   |
+|       |   |---Project[bag][0] - scope-226
+|       |       |
+|       |       |---Project[bag][1] - scope-227
+|       |
+|       |---Pre Combiner Local Rearrange[tuple]{Unknown} - scope-238
+|   |
+|   Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp388073859/tmp-2109512043:org.apache.pig.impl.io.InterStorage) - scope-213
+|
+|---raw: New For Each(false,false,false,false,false,false,false)[bag] - scope-164
+    |   |
+    |   Cast[int] - scope-144
+    |   |
+    |   |---Project[bytearray][0] - scope-143
+    |   |
+    |   Cast[chararray] - scope-147
+    |   |
+    |   |---Project[bytearray][1] - scope-146
+    |   |
+    |   Cast[chararray] - scope-150
+    |   |
+    |   |---Project[bytearray][2] - scope-149
+    |   |
+    |   Cast[chararray] - scope-153
+    |   |
+    |   |---Project[bytearray][3] - scope-152
+    |   |
+    |   Cast[chararray] - scope-156
+    |   |
+    |   |---Project[bytearray][4] - scope-155
+    |   |
+    |   Cast[int] - scope-159
+    |   |
+    |   |---Project[bytearray][5] - scope-158
+    |   |
+    |   Cast[int] - scope-162
+    |   |
+    |   |---Project[bytearray][6] - scope-161
+    |
+    |---raw: Load(/data2/emp.csv:PigStorage(',')) - scope-142--------
+Combine Plan
+employees: Local Rearrange[tuple]{int}(false) - scope-239
+|   |
+|   Project[int][0] - scope-241
+|
+|---counted: New For Each(false,false)[bag] - scope-228
+    |   |
+    |   Project[int][0] - scope-229
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Intermediate)[tuple] - scope-230
+    |   |
+    |   |---Project[bag][1] - scope-231
+    |
+    |---employees: Package(CombinerPackager)[tuple]{int} - scope-234--------
+Reduce Plan
+Store(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp388073859/tmp1619446293:org.apache.pig.impl.io.InterStorage) - scope-218
+|
+|---counted: New For Each(false,false)[bag] - scope-188
+    |   |
+    |   Project[int][0] - scope-182
+    |   |
+    |   POUserFunc(org.apache.pig.builtin.COUNT$Final)[long] - scope-186
+    |   |
+    |   |---Project[bag][1] - scope-232
+    |
+    |---employees: Package(CombinerPackager)[tuple]{int} - scope-179--------
+Global sort: false
+----------------
+
+MapReduce node scope-221
+Map Plan
+Union[tuple] - scope-222
+|
+|---joined: Local Rearrange[tuple]{int}(false) - scope-193
+|   |   |
+|   |   Project[int][0] - scope-194
+|   |
+|   |---managers: Filter[bag] - scope-168
+|       |   |
+|       |   And[boolean] - scope-175
+|       |   |
+|       |   |---Equal To[boolean] - scope-171
+|       |   |   |
+|       |   |   |---Project[chararray][4] - scope-169
+|       |   |   |
+|       |   |   |---Constant(Y) - scope-170
+|       |   |
+|       |   |---Equal To[boolean] - scope-174
+|       |       |
+|       |       |---Project[chararray][3] - scope-172
+|       |       |
+|       |       |---Constant(Finance) - scope-173
+|       |
+|       |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp388073859/tmp-2109512043:org.apache.pig.impl.io.InterStorage) - scope-214
+|
+|---joined: Local Rearrange[tuple]{int}(false) - scope-195
+    |   |
+    |   Project[int][0] - scope-196
+    |
+    |---Load(hdfs://cs421-hd1.cs.mcgill.ca:9000/tmp/temp388073859/tmp1619446293:org.apache.pig.impl.io.InterStorage) - scope-219--------
+Reduce Plan
+filtered: Store(fakefile:org.apache.pig.builtin.PigStorage) - scope-211
+|
+|---filtered: New For Each(false,false,false)[bag] - scope-210
+    |   |
+    |   Project[int][0] - scope-204
+    |   |
+    |   Project[chararray][2] - scope-206
+    |   |
+    |   Project[long][8] - scope-208
+    |
+    |---joined: New For Each(true,true)[tuple] - scope-203
+        |   |
+        |   Project[bag][1] - scope-197
+        |   |
+        |   POBinCond[bag] - scope-202
+        |   |
+        |   |---Project[bag][2] - scope-198
+        |   |
+        |   |---POUserFunc(org.apache.pig.builtin.IsEmpty)[boolean] - scope-200
+        |   |   |
+        |   |   |---Project[bag][2] - scope-199
+        |   |
+        |   |---Constant({(,)}) - scope-201
+        |
+        |---joined: Package(Packager)[tuple]{int} - scope-192--------
+Global sort: false
+----------------
+
+

@@ -1,0 +1,43 @@
+i.1. There were 2 job.  
+The first job was 1 map and 0 reduce.
+The second job was 2 map and 1 reduce. 
+
+i.2 The schema look like this after the join
+joined: {
+    won::date: bytearray,
+    won::type: chararray,
+    won::parl: int,
+    won::prov: chararray,
+    won::riding: chararray,
+    won::lastname: chararray,
+    won::firstname: chararray,
+    won::gender: chararray,
+    won::occupation: chararray,
+    won::party: chararray,
+    won::votes: int,
+    won::percent: double,
+    won::elected: int,
+    lost::date: bytearray,
+    lost::type: chararray,
+    lost::parl: int,
+    lost::prov: chararray,
+    lost::riding: chararray,
+    lost::lastname: chararray,
+    lost::firstname: chararray,
+    lost::gender: chararray,
+    lost::occupation: chararray,
+    lost::party: chararray,
+    lost::votes: int,
+    lost::percent: double,
+    lost::elected: int
+}
+
+i.3 The execution time of the query is 7 seconds for the first job and 14 seconds for the second.  This give a total of 21 seconds.  This is not the ellapsed between the submission and the completion, it is only the query time.
+
+ii.1 There were 2 job. 
+The first job had 1 map and 0 reduce.  
+The second job had 2 map and 4 reduce.
+
+ii.2 For the first job is 7 seconds. For the second job it is 17 seconds. This give a total of 24 seconds.  This is not the ellapsed between the submission and the completion, it is only the query time.
+
+ii.3 Yes we expected that it would take a longer time because since the dataset is small the overhead cost for the use of parallellism is bigger than the gain obtained by using more parallellism.  The data set is not big enough to be worth it.

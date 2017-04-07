@@ -1,0 +1,13 @@
+a) Nested. Each tuple contains the group id(parliment) and a list of tuples that have this group id.  It looks like this :
+
+( parl ,{(a,b,c),(a,b,c),(a,b,c),(a,b,c)})
+( parl ,{(a,b,c),(a,b,c)})
+( parl ,{(a,b,c),(a,b,c), (a,b,c)})
+...
+
+b) 4 jobs where produce.  
+It took 13 seconds for job 1.
+It took 13 seconds for job 2.
+It took 13 seconds for job 3.
+It took 11 seconds for job 4.
+This query runtime was 50 seconds.

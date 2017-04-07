@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head></head><body>
+
+
+
+<div class="topheading">
+  <h1>Assignment 4: Hadoop and Pig</h1>
+<h4>Due date: Monday, April 10, 23:59 </h4>
+</div>
+
+Note that you do this assignment 4 in the groups that  you have created for your project. 
+
+<p>
+
+Note: The setup and help information for this assignment was taken
+from the Homework 6 of the Fall
+2012 term of CSE 344 of University of Washington (<a rel="noopener" href="http://www.cs.washington.edu/education/courses/cse344/12au/hw/hw6/hw6.html"> http://www.cs.washington.edu/education/courses/cse344/12au/hw/hw6/hw6.html)</a>
+
+<h2>Setup Instructions your Pig Cluster</h2>
+
+<p>
+Follow the instructions provided in the MapReduce Instructions document provided in MyCourses.
+</p>
+
+<h2>Useful Links</h2>
+<p><a rel="noopener" href="https://pig.apache.org/docs/r0.15.0/basic.html" target="_blank">Hadoop&#39;s Pig Latin Documentation</a>
+<p><a rel="noopener" href="https://pig.apache.org/docs/r0.15.0/test.html" target="_blank">How to get some of the diagnostic info asked in questions</a>
+<p><a rel="noopener" href="http://chimera.labs.oreilly.com/books/1234000001811/index.html" target="_blank">You are obsessed, you want more of Pig</a>
+
+
+
+
+<h2> Information about the data used in this assignment </h2>
+
+The data used in this assignment is the record of federal elections for MPs in Canadian House of Commons since 1867.
+The original source can be found at:
+http://data.gc.ca/data/en/dataset/ea8f2c37-90b6-4fee-857e-984d3060184e.
+The complete data set has already been loaded in HDFS at /data2/cl03.csv with minor modifications to fit properly in the schema.
+
+<br/>
+Each entry in the file has the following fields in order:
+<ol>
+  <li>  The date of the election.
+</li><li> The election type (either Gen or B/P for by-election).
+</li><li> The number of the Parliament session.
+</li><li> Province where the election took place.
+</li><li> Electoral district.
+</li><li> Last name of the candidate.
+</li><li> First name of the candidate.
+</li><li> Gender (F, otherwise either M or &#39;&#39;).
+</li><li> Occupation of the candidate.
+</li><li> Party of the candidate.
+</li><li> Number of votes received.
+</li><li> Percentage of total votes.
+</li><li> Whether the candidate won (Elected = 1, Defeated = 0).
+</li></ol>
+
+  When the data is loaded, you should define the schema so that the columns can be referred
+to by name. Also, datatypes are defined here to avoid unnecessarily casting every time the
+value is used.
+
+<p>
+
+raw = LOAD &#39;/data2/cl03.csv&#39; USING PigStorage(&#39;,&#39;) AS
+(date, type:chararray, parl:int, prov:chararray,
+riding:chararray, lastname:chararray, firstname:chararray,
+gender:chararray, occupation:chararray, party:chararray,
+votes:int, percent:double, elected:int) ;
+
+<p>
+(Date left unconverted.)
+
+<p>
+<span style="color: red;">Unless otherwise explicitly stated for a particular question, you will let pig use the default number maps and reduces as it finds fitting for the script and will not override them. Not confirming to this can result in point deduction !!</span></p>
+
+<p><b>TURN IN INSTRUCTIONS:</b> Turn in nine files <br/>
+<span style="color: red;">What to turn is marked in red</span></p>
+<br/>
+
+
+<h2>Qestion 0: When was Stephen Harper first elected to
+Parliament? (0 Points)</h2>
+
+The goal of this task is to successfully set up and run the Pig cluster. After going through the
+setup instructions, you will run the file example.pig ( provided for
+in the module a4 on mycourses). This script will load the data from S3,
+choose only the records pertaining to Stephen Harper and return the one with the smallest
+date. You are going to run the file by pasting it into the interactive
+grunt shell.
+<p>
+The script will take a few minutes to run.
+<p>
+At the end, you should see totals for how many records were read in and out and a tuple right
+above the prompt that looks like this: (1993-10-25 00:00:00, Harper, Stephen).
+Run the following line to see how the results relation was generated: illustrate results;.
+
+<p>
+<span style="color: red;"> You do not need to submit anything for this
+question. </span>
+
+
+
+
+<br/>
+</p><h2>Question 1:  Which candidates have won with
+over 60% of the vote? (20 Points)</h2>
+<p>
+Modify the example.pig file to answer this question.
+<p>
+
+First, change the filter statement to eliminate rows with percentages less than 60.
+<p>
+
+Then replace the foreach directive with: gen = foreach fltrd generate CONCAT(firstname, CONCAT(&#39; &#39;, lastname));.
+
+<p>
+Last, eliminate duplicates using DISTINCT. You should remove the ordering and limiting
+directives and then store the results in HDFS under your home directory as &#39;q1&#39; .
+
+Try to run the script using the ILLUSTRATE (see the link on diagnostic info on how to do this). Copy paste the tables output by illustrate into Q1_illustrate.txt
+
+<p><b>What you need to turn in:</b><br/>
+  <span style="color: red;"> Submit your script as Q1_script.pig and Q1_illustrate.txt . 
+
+<h2>Question 2: Find the closest election margins in history where over 100 votes were
+cast for each candidate. (20 Points)</h2>
+
+Start by eliminating all candidates with less than 100 votes.
+<p>
+Split the relation into those who won and those who lost.
+<p>
+Join the all the candidates back together and make tuples with the last names of both
+candidates (elected and defeated) and the difference between their vote totals. Include only
+tuples where the difference is less than 10.
+<p>
+Store the results in HDFS under your home directory as &#39;q2&#39; .
+
+<p> 
+
+answer the following questions
+below:
+<ul>
+(i)
+<ul>
+ (a) How many Maps and Reduces are generated in each job? <p>
+ (b) What does the schema look like just after the join? <p>
+ (c) How long did the query run?
+</p></p></ul>
+(ii) Now modify this script to have your join step run with 4 reduce tasks.<p>
+<ul>
+ (a) How many Maps and Reduces are generated in each job? <p>
+ (b) How long did the query run? <p>
+ (c) Is the difference in query execution time what you were expecting ? Describe what you were expecting to see and (if that is not what happened in the end) why you think it did not happen ?
+</p></p></ul>
+
+</p></ul>
+
+
+  <span style="color: red;">Submit your final script as Q2_script.pig and
+ answers in: pig_answers2.txt.
+</span></p>
+
+<h2>Question 3: How many members added between each Parliament? (20 Points)</h2>
+
+Consider only general election winners. Dump to the screen a list of (Parliament, count)
+tuples showing the difference between that Parliament and the previous one sorted ascending
+by Parliament number.
+<p>
+
+Answer the following question:
+<ul>
+   (a) What does the schema look like immediately after the group
+  by? Is is nested or flat? <p>
+   (b) How long did your query run?
+</p></ul>
+
+  <span style="color: red;">Submit your script as Q3_script.pig and
+ answers in: pig_answers3.txt.
+</span></p>
+
+  
+<h2>Question 4: For each Parliament, how many members were of each party?
+(20 Points)</h2>
+
+You will use the PigStorage function to generate a CSV file where each line has the
+Parliament number, the party name and the number of MPs from that party, along with the
+total number of MPs in that Parliament. The file need not be sorted. Write the query in any
+way you please.
+Store the results in HDFS storage under your home directory as &#39;q4&#39; .
+
+<p>
+
+  <span style="color: red;">Submit your script as Q4_script.pig.
+</span></p>
+
+  
+<h2>Question 5: Output the employee id, last name and the number of employees under them for all managers in Finance. (20 Points)</h2>
+
+For this question, we will use a small data set located at /data2/emp.csv , the schema for which is defined as below. <p>
+
+raw = LOAD &#39;/data2/emp.csv&#39; USING PigStorage(&#39;,&#39;) AS  (empid:int, fname:chararray, lname:chararray, deptname:chararray, isManager:chararray, mgrid:int, salary:int);
+<p>
+
+We will assume a simple flat heirarchy where managers have no managers. The mgrid for managers will be empty and their isManager field would be &#39;Y&#39;. For regular employees this field would be &#39;N&#39; and the mgrid field will contain the employee id of the manager. <p>
+
+Deptname  will contain values like &#39;Finance&#39;, &#39;HR&#39;, etc.
+
+You will notice that first few steps in the script is very similar to Q2 and you should be able to build your logic based on it using the group by structures taught in class.<p>
+
+Your output should be flattened like the format below. <p>
+(33333,Ramon,3)<br/>
+(44455,Diez,2)<p>
+<p>
+
+Below is an example of a not flattened output, which is not acceptable <p>
+((33333,Ramon),3)<br/>
+((44455,Diez),2)<p>
+
+<p>
+
+You will dump the results, followed by storing them in HDFS under your home directory as &#39;q5&#39; <p>
+
+Next, generate the explain (you do not have to excecute the script to do this) for the entire Q5 script, save them locally as Q5_explain.txt . How to do this described in the link provided for diagnositc info <p>
+
+
+<p>
+
+  <span style="color: red;">Submit your script as Q5_script.pig and Q5_explain.txt .
+</span></p>
+
+
+
+
+</p></p></p></p></p></p></p></p></p></p></p></p></p></p></p></span></p></p></p></p></p></p></p></p></p></p></p></p></p>
+<script type="text/javascript" src="/d2l/common/math/MathML.js?v=10.6.11.5905-94 "></script><script type="text/javascript">document.addEventListener('DOMContentLoaded', function() { D2LMathML.DesktopInit('https://s.brightspace.com/lib/mathjax/2.6.1/MathJax.js?config=MML_HTMLorMML','https://s.brightspace.com/lib/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML'); });</script></body></html>
